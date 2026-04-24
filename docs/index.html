@@ -35,10 +35,26 @@
           <div id="service-status" class="service-status" role="status" aria-live="polite" hidden></div>
 
           <form id="validation-form" class="form">
-            <label for="brand-select">Marca</label>
-            <select id="brand-select" name="brand" required>
-              <option value="">Carregando marcas...</option>
-            </select>
+            <label for="brand-search">Marca</label>
+            <div class="brand-search">
+              <input
+                id="brand-search"
+                name="brand-search"
+                type="text"
+                placeholder="Digite o nome da marca"
+                autocomplete="off"
+                aria-describedby="brand-search-help"
+                required
+              >
+              <input id="brand-id" name="brand-id" type="hidden">
+              <div id="brand-suggestions" class="brand-suggestions" role="listbox" hidden></div>
+            </div>
+            <p id="brand-search-help" class="field-hint">
+              Comece a digitar e selecione uma marca da lista.
+            </p>
+            <p id="brand-not-found" class="field-hint brand-not-found" hidden>
+              Não encontrou a empresa? <button id="open-request-modal-inline" class="link-button" type="button">Solicite a adição</button>.
+            </p>
 
             <label for="domain-input">URL recebida</label>
             <input
@@ -123,13 +139,29 @@
           >
 
           <label for="request-source">Fonte para conferência</label>
+          <p class="field-hint" id="request-source-hint">
+            Cole uma página oficial, perfil verificado, documento público ou outro link que ajude a confirmar esse domínio.
+          </p>
           <input
             id="request-source"
             name="source"
             type="url"
-            placeholder="Ex.: página oficial, contato institucional ou documento público"
+            placeholder="Ex.: https://www.empresa.com.br/sobre"
             autocomplete="url"
+            aria-describedby="request-source-hint"
           >
+
+          <label for="request-description">Descrição da solicitação</label>
+          <textarea
+            id="request-description"
+            name="description"
+            maxlength="500"
+            rows="4"
+            placeholder="Opcional: conte por que essa empresa deveria entrar na lista."
+          ></textarea>
+          <p class="field-hint">
+            Opcional, até 500 caracteres.
+          </p>
 
           <button type="submit" class="secondary-button">Solicitar adição</button>
         </form>
@@ -153,6 +185,12 @@
         <div id="official-domains-list" class="domain-list"></div>
       </dialog>
     </main>
+
+    <footer class="site-footer">
+      <a href="politicas/termos-de-uso.md" target="_blank" rel="noopener noreferrer">
+        Termos de uso
+      </a>
+    </footer>
 
     <script src="app.js"></script>
   </body>

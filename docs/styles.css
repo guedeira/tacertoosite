@@ -46,6 +46,22 @@ body {
   padding: 28px 24px 32px;
 }
 
+.site-footer {
+  padding: 0 24px 24px;
+  text-align: center;
+}
+
+.site-footer a {
+  color: #627d98;
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.site-footer a:hover {
+  color: #334e68;
+}
+
 .content-grid {
   width: min(100%, 1040px);
   display: grid;
@@ -180,6 +196,7 @@ label {
 
 select,
 input,
+textarea,
 button {
   width: 100%;
   min-height: 44px;
@@ -188,16 +205,85 @@ button {
 }
 
 select,
-input {
+input,
+textarea {
   border: 1px solid #bcccdc;
   padding: 10px 12px;
   background: #ffffff;
 }
 
 select:focus,
-input:focus {
+input:focus,
+textarea:focus {
   outline: 3px solid #b3d4ff;
   border-color: #2f80ed;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.field-hint {
+  margin: -8px 0 0;
+  color: #627d98;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.brand-search {
+  position: relative;
+}
+
+.brand-suggestions {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  border: 1px solid #bcccdc;
+  border-radius: 6px;
+  background: #ffffff;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+}
+
+.brand-suggestion {
+  width: 100%;
+  min-height: 40px;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 10px 12px;
+  background: #ffffff;
+  color: #1f2933;
+  text-align: left;
+}
+
+.brand-suggestion:hover,
+.brand-suggestion:focus {
+  background: #f0f4f8;
+}
+
+.brand-not-found {
+  margin-top: -4px;
+}
+
+.link-button {
+  width: auto;
+  min-height: auto;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #1f6feb;
+  font-size: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.link-button:hover {
+  background: transparent;
+  color: #1b5fc8;
 }
 
 button {

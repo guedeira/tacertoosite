@@ -2,7 +2,10 @@ const API_BASE_URL = "https://tacertoosite.onrender.com";
 const GITHUB_NEW_ISSUE_URL = "https://github.com/guedeira/tacertoosite/issues/new";
 
 const form = document.querySelector("#validation-form");
-const brandSelect = document.querySelector("#brand-select");
+const brandSearch = document.querySelector("#brand-search");
+const brandIdInput = document.querySelector("#brand-id");
+const brandSuggestions = document.querySelector("#brand-suggestions");
+const brandNotFound = document.querySelector("#brand-not-found");
 const domainInput = document.querySelector("#domain-input");
 const resultBox = document.querySelector("#result");
 const serviceStatus = document.querySelector("#service-status");
@@ -13,11 +16,14 @@ const requestForm = document.querySelector("#request-form");
 const requestBrandName = document.querySelector("#request-brand-name");
 const requestDomain = document.querySelector("#request-domain");
 const requestSource = document.querySelector("#request-source");
+const requestDescription = document.querySelector("#request-description");
 const requestResultBox = document.querySelector("#request-result");
 const officialDomainsModal = document.querySelector("#official-domains-modal");
 const closeOfficialDomainsModalButton = document.querySelector("#close-official-domains-modal");
 const officialDomainsList = document.querySelector("#official-domains-list");
+const openRequestModalInlineButton = document.querySelector("#open-request-modal-inline");
 
+let brands = [];
 let currentOfficialDomains = [];
 
 async function initializeApp() {
@@ -27,7 +33,7 @@ async function initializeApp() {
   const isBackendReady = await waitForBackend();
   if (!isBackendReady) {
     showServiceStatus("Não foi possível conectar ao serviço agora. Aguarde um pouco e tente recarregar a página.", "error");
-    renderBrandOptions([]);
+    setBrands([]);
     return;
   }
 
@@ -82,27 +88,18 @@ async function loadBrands() {
       throw new Error("Não foi possível carregar as marcas.");
     }
 
-    const brands = await response.json();
-    renderBrandOptions(brands);
+    const loadedBrands = await response.json();
+    setBrands(loadedBrands);
   } catch (error) {
     renderError("Não foi possível carregar a lista de marcas.");
   }
 }
 
-function renderBrandOptions(brands) {
-  brandSelect.innerHTML = '<option value="">Selecione uma marca</option>';
-
-  if (brands.length === 0) {
-    brandSelect.innerHTML = '<option value="">Marcas indisponíveis no momento</option>';
-    return;
-  }
-
-  brands.forEach((brand) => {
-    const option = document.createElement("option");
-    option.value = brand.id;
-    option.textContent = brand.name;
-    brandSelect.appendChild(option);
-  });
+function setBrands(loadedBrands) {
+  brands = loadedBrands;
+  brandSearch.placeholder = brands.length === 0
+    ? "Marcas indisponíveis no momento"
+    : "Digite o nome da marca";
 }
 
 function showServiceStatus(message, type = "info") {
@@ -117,9 +114,88 @@ function hideServiceStatus() {
 }
 
 function setFormAvailability(isAvailable) {
-  brandSelect.disabled = !isAvailable;
+  brandSearch.disabled = !isAvailable;
   domainInput.disabled = !isAvailable;
   form.querySelector("button").disabled = !isAvailable;
+}
+
+function handleBrandSearchInput() {
+  brandIdInput.value = "";
+  const term = brandSearch.value.trim();
+
+  if (!term) {
+    hideBrandSuggestions();
+    brandNotFound.hidden = true;
+    return;
+  }
+
+  const matchedBrands = findMatchingBrands(term);
+  const exactMatch = brands.find((brand) => normalizeText(brand.name) === normalizeText(term));
+  if (exactMatch) {
+    brandIdInput.value = exactMatch.id;
+  }
+
+  renderBrandSuggestions(matchedBrands);
+  brandNotFound.hidden = matchedBrands.length > 0;
+}
+
+function findMatchingBrands(term) {
+  const normalizedTerm = normalizeText(term);
+
+  return brands
+    .filter((brand) => normalizeText(brand.name).includes(normalizedTerm))
+    .slice(0, 6);
+}
+
+function renderBrandSuggestions(matchedBrands) {
+  if (matchedBrands.length === 0) {
+    hideBrandSuggestions();
+    return;
+  }
+
+  brandSuggestions.innerHTML = matchedBrands
+    .map((brand) => `
+      <button class="brand-suggestion" type="button" data-brand-id="${escapeHtml(brand.id)}">
+        ${escapeHtml(brand.name)}
+      </button>
+    `)
+    .join("");
+  brandSuggestions.hidden = false;
+}
+
+function hideBrandSuggestions() {
+  brandSuggestions.hidden = true;
+  brandSuggestions.innerHTML = "";
+}
+
+function handleBrandSuggestionClick(event) {
+  const button = event.target.closest(".brand-suggestion");
+  if (!button) {
+    return;
+  }
+
+  const selectedBrand = brands.find((brand) => brand.id === button.dataset.brandId);
+  if (!selectedBrand) {
+    return;
+  }
+
+  brandSearch.value = selectedBrand.name;
+  brandIdInput.value = selectedBrand.id;
+  brandNotFound.hidden = true;
+  hideBrandSuggestions();
+}
+
+function handleDocumentClick(event) {
+  if (!event.target.closest(".brand-search")) {
+    hideBrandSuggestions();
+  }
+}
+
+function normalizeText(value) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
 }
 
 async function validateDomain(event) {
@@ -127,11 +203,16 @@ async function validateDomain(event) {
   clearResult();
 
   const payload = {
-    brand_id: brandSelect.value,
+    brand_id: brandIdInput.value,
     input: domainInput.value,
   };
 
-  if (!payload.brand_id || !payload.input.trim()) {
+  if (!payload.brand_id) {
+    renderError("Selecione uma marca da lista.");
+    return;
+  }
+
+  if (!payload.input.trim()) {
     renderError("Digite um endereço válido.");
     return;
   }
@@ -217,6 +298,10 @@ function setLoading(isLoading) {
 }
 
 function openRequestModal() {
+  if (brandSearch.value.trim()) {
+    requestBrandName.value = brandSearch.value.trim();
+  }
+
   requestModal.showModal();
   requestBrandName.focus();
 }
@@ -275,9 +360,15 @@ function requestBrandAddition(event) {
   const brandName = requestBrandName.value.trim();
   const domain = requestDomain.value.trim().toLowerCase();
   const source = requestSource.value.trim();
+  const description = requestDescription.value.trim();
 
   if (!brandName || !domain) {
     renderRequestMessage("Preencha o nome da empresa e o domínio oficial.", "error");
+    return;
+  }
+
+  if (description.length > 500) {
+    renderRequestMessage("A descrição deve ter no máximo 500 caracteres.", "error");
     return;
   }
 
@@ -293,6 +384,7 @@ function requestBrandAddition(event) {
     `Empresa: ${brandName}`,
     `Domínio oficial sugerido: ${domain}`,
     `Fonte para conferência: ${source || "Não informada"}`,
+    `Descrição: ${description || "Não informada"}`,
     "",
     "## Critérios",
     "",
@@ -325,7 +417,11 @@ function escapeHtml(value) {
 
 form.addEventListener("submit", validateDomain);
 resultBox.addEventListener("click", handleResultClick);
+brandSearch.addEventListener("input", handleBrandSearchInput);
+brandSuggestions.addEventListener("click", handleBrandSuggestionClick);
+document.addEventListener("click", handleDocumentClick);
 openRequestModalButton.addEventListener("click", openRequestModal);
+openRequestModalInlineButton.addEventListener("click", openRequestModal);
 closeRequestModalButton.addEventListener("click", closeRequestModal);
 requestModal.addEventListener("click", closeRequestModalOnBackdrop);
 requestForm.addEventListener("submit", requestBrandAddition);
