@@ -64,7 +64,10 @@ const GITHUB_NEW_ISSUE_URL = "https://github.com/seu-usuario/seu-repositorio/iss
 
 - `GET /brands`: lista marcas disponíveis.
 - `GET /brands/{brand_id}`: retorna detalhes de uma marca.
+- `GET /health`: verifica se a API está ativa.
 - `POST /validate-domain`: compara o domínio informado com os domínios oficiais cadastrados.
+
+No frontend, a página chama `/health` ao abrir. Em hospedagens gratuitas como Render, essa chamada ajuda a acordar o serviço quando ele ficou inativo e mostra uma mensagem enquanto a API inicializa.
 
 Exemplo de payload:
 

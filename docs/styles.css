@@ -120,6 +120,23 @@ p {
   font-weight: 700;
 }
 
+.service-status {
+  border: 1px solid #bcccdc;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  padding: 12px;
+  background: #f0f4f8;
+  color: #334e68;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.service-status.error {
+  border-color: #d64545;
+  background: #ffeeee;
+  color: #8a1f1f;
+}
+
 .education > p,
 .tip p {
   margin: 0;

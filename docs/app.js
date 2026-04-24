@@ -1,10 +1,11 @@
-const API_BASE_URL = "http://localhost:8000";
-const GITHUB_NEW_ISSUE_URL = "https://github.com/SEU_USUARIO/SEU_REPOSITORIO/issues/new";
+const API_BASE_URL = "https://tacertoosite.onrender.com";
+const GITHUB_NEW_ISSUE_URL = "https://github.com/guedeira/tacertoosite/issues/new";
 
 const form = document.querySelector("#validation-form");
 const brandSelect = document.querySelector("#brand-select");
 const domainInput = document.querySelector("#domain-input");
 const resultBox = document.querySelector("#result");
+const serviceStatus = document.querySelector("#service-status");
 const openRequestModalButton = document.querySelector("#open-request-modal");
 const closeRequestModalButton = document.querySelector("#close-request-modal");
 const requestModal = document.querySelector("#request-modal");
@@ -18,6 +19,61 @@ const closeOfficialDomainsModalButton = document.querySelector("#close-official-
 const officialDomainsList = document.querySelector("#official-domains-list");
 
 let currentOfficialDomains = [];
+
+async function initializeApp() {
+  setFormAvailability(false);
+  showServiceStatus("Inicializando os serviços. Isso pode levar alguns segundos na primeira visita.");
+
+  const isBackendReady = await waitForBackend();
+  if (!isBackendReady) {
+    showServiceStatus("Não foi possível conectar ao serviço agora. Aguarde um pouco e tente recarregar a página.", "error");
+    renderBrandOptions([]);
+    return;
+  }
+
+  hideServiceStatus();
+  await loadBrands();
+  setFormAvailability(true);
+}
+
+async function waitForBackend() {
+  const maxAttempts = 8;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      const response = await fetchWithTimeout(`${API_BASE_URL}/health`, 8000);
+      if (response.ok) {
+        return true;
+      }
+    } catch (error) {
+      showServiceStatus(`Inicializando os serviços. Tentativa ${attempt} de ${maxAttempts}...`);
+    }
+
+    await wait(2500);
+  }
+
+  return false;
+}
+
+async function fetchWithTimeout(url, timeoutInMs, options = {}) {
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), timeoutInMs);
+
+  try {
+    return await fetch(url, {
+      ...options,
+      signal: controller.signal,
+    });
+  } finally {
+    window.clearTimeout(timeoutId);
+  }
+}
+
+function wait(milliseconds) {
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, milliseconds);
+  });
+}
 
 async function loadBrands() {
   try {
@@ -36,12 +92,34 @@ async function loadBrands() {
 function renderBrandOptions(brands) {
   brandSelect.innerHTML = '<option value="">Selecione uma marca</option>';
 
+  if (brands.length === 0) {
+    brandSelect.innerHTML = '<option value="">Marcas indisponíveis no momento</option>';
+    return;
+  }
+
   brands.forEach((brand) => {
     const option = document.createElement("option");
     option.value = brand.id;
     option.textContent = brand.name;
     brandSelect.appendChild(option);
   });
+}
+
+function showServiceStatus(message, type = "info") {
+  serviceStatus.className = `service-status ${type}`;
+  serviceStatus.hidden = false;
+  serviceStatus.textContent = message;
+}
+
+function hideServiceStatus() {
+  serviceStatus.hidden = true;
+  serviceStatus.textContent = "";
+}
+
+function setFormAvailability(isAvailable) {
+  brandSelect.disabled = !isAvailable;
+  domainInput.disabled = !isAvailable;
+  form.querySelector("button").disabled = !isAvailable;
 }
 
 async function validateDomain(event) {
@@ -253,4 +331,4 @@ requestModal.addEventListener("click", closeRequestModalOnBackdrop);
 requestForm.addEventListener("submit", requestBrandAddition);
 closeOfficialDomainsModalButton.addEventListener("click", closeOfficialDomainsModal);
 officialDomainsModal.addEventListener("click", closeOfficialDomainsModalOnBackdrop);
-loadBrands();
+initializeApp();

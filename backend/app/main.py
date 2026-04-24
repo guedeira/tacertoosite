@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes.brand_routes import router as brand_router
+from app.routes.health_routes import router as health_router
 from app.routes.validation_routes import router as validation_router
 
 
@@ -36,6 +37,7 @@ def create_app() -> FastAPI:
     )
 
     app.include_router(brand_router)
+    app.include_router(health_router)
     app.include_router(validation_router)
 
     return app
