@@ -1,23 +1,129 @@
 {
+  "technology": [
+    {
+      "id": "microsoft",
+      "name": "Microsoft",
+      "official_domains": ["microsoft.com", "office.com", "live.com", "outlook.com"]
+    },
+    {
+      "id": "google",
+      "name": "Google",
+      "official_domains": ["google.com", "gmail.com"]
+    },
+    {
+      "id": "apple",
+      "name": "Apple",
+      "official_domains": ["apple.com", "icloud.com"]
+    },
+    {
+      "id": "adobe",
+      "name": "Adobe",
+      "official_domains": ["adobe.com"]
+    },
+    {
+      "id": "yahoo",
+      "name": "Yahoo",
+      "official_domains": ["yahoo.com"]
+    }
+  ],
+  "social_media": [
+    {
+      "id": "facebook",
+      "name": "Facebook",
+      "official_domains": ["facebook.com", "fb.com"]
+    },
+    {
+      "id": "instagram",
+      "name": "Instagram",
+      "official_domains": ["instagram.com"]
+    },
+    {
+      "id": "whatsapp",
+      "name": "WhatsApp",
+      "official_domains": ["whatsapp.com", "whatsapp.net"]
+    },
+    {
+      "id": "linkedin",
+      "name": "LinkedIn",
+      "official_domains": ["linkedin.com"]
+    }
+  ],
   "marketplaces": [
+    {
+      "id": "amazon",
+      "name": "Amazon",
+      "official_domains": ["amazon.com", "amazon.com.br"]
+    },
     {
       "id": "mercado_livre",
       "name": "Mercado Livre",
       "official_domains": ["mercadolivre.com.br", "mercadolibre.com"]
+    },
+    {
+      "id": "magazine_luiza",
+      "name": "Magazine Luiza",
+      "official_domains": ["magazineluiza.com.br", "magalu.com"]
+    },
+    {
+      "id": "americanas",
+      "name": "Americanas",
+      "official_domains": ["americanas.com.br"]
     }
   ],
-  "pagamentos": [
+  "payments": [
+    {
+      "id": "paypal",
+      "name": "PayPal",
+      "official_domains": ["paypal.com"]
+    },
     {
       "id": "mercado_pago",
       "name": "Mercado Pago",
       "official_domains": ["mercadopago.com.br", "mercadopago.com"]
+    },
+    {
+      "id": "picpay",
+      "name": "PicPay",
+      "official_domains": ["picpay.com"]
     }
   ],
-  "bancos": [
+  "coupons_cashback": [
+    {
+      "id": "cuponeria",
+      "name": "Cuponeria",
+      "official_domains": ["cuponeria.com.br"]
+    },
+    {
+      "id": "meliuz",
+      "name": "Méliuz",
+      "official_domains": ["meliuz.com.br"]
+    },
+    {
+      "id": "pelando",
+      "name": "Pelando",
+      "official_domains": ["pelando.com.br"]
+    },
+    {
+      "id": "promobit",
+      "name": "Promobit",
+      "official_domains": ["promobit.com.br"]
+    },
+    {
+      "id": "cuponomia",
+      "name": "Cuponomia",
+      "official_domains": ["cuponomia.com.br"]
+    },
+    {
+      "id": "cashback_world",
+      "name": "Cashback World",
+      "official_domains": ["cashbackworld.com"]
+    }
+  ],
+  "banks": [
     {
       "id": "nubank",
       "name": "Nubank",
-      "official_domains": ["nubank.com.br"]
+      "official_domains": ["nubank.com.br", "nu.com.br"]
     },
     {
       "id": "itau",
@@ -33,13 +139,122 @@
       "id": "banco_do_brasil",
       "name": "Banco do Brasil",
       "official_domains": ["bb.com.br"]
+    },
+    {
+      "id": "caixa",
+      "name": "Caixa Econômica Federal",
+      "official_domains": ["caixa.gov.br"]
+    },
+    {
+      "id": "santander",
+      "name": "Santander",
+      "official_domains": ["santander.com.br"]
     }
   ],
-  "orgaos_publicos": [
+  "logistics": [
+    {
+      "id": "dhl",
+      "name": "DHL",
+      "official_domains": ["dhl.com"]
+    },
+    {
+      "id": "correios",
+      "name": "Correios",
+      "official_domains": ["correios.com.br"]
+    }
+  ],
+  "travel_hospitality": [
+    {
+      "id": "booking",
+      "name": "Booking.com",
+      "official_domains": ["booking.com"]
+    }
+  ],
+  "streaming_entertainment": [
+    {
+      "id": "spotify",
+      "name": "Spotify",
+      "official_domains": ["spotify.com"]
+    },
+    {
+      "id": "netflix",
+      "name": "Netflix",
+      "official_domains": ["netflix.com"]
+    },
+    {
+      "id": "disney",
+      "name": "Disney",
+      "official_domains": ["disney.com", "disneyplus.com"]
+    }
+  ],
+  "gaming": [
+    {
+      "id": "roblox",
+      "name": "Roblox",
+      "official_domains": ["roblox.com"]
+    },
+    {
+      "id": "steam",
+      "name": "Steam",
+      "official_domains": ["steampowered.com", "steamcommunity.com"]
+    },
+    {
+      "id": "nintendo",
+      "name": "Nintendo",
+      "official_domains": ["nintendo.com"]
+    }
+  ],
+  "telecommunications": [
+    {
+      "id": "vivo",
+      "name": "Vivo",
+      "official_domains": ["vivo.com.br"]
+    },
+    {
+      "id": "claro",
+      "name": "Claro",
+      "official_domains": ["claro.com.br"]
+    },
+    {
+      "id": "tim",
+      "name": "TIM",
+      "official_domains": ["tim.com.br"]
+    },
+    {
+      "id": "att",
+      "name": "AT&T",
+      "official_domains": ["att.com"]
+    }
+  ],
+  "crypto_assets": [
+    {
+      "id": "coinbase",
+      "name": "Coinbase",
+      "official_domains": ["coinbase.com"]
+    }
+  ],
+  "cybersecurity": [
+    {
+      "id": "mcafee",
+      "name": "McAfee",
+      "official_domains": ["mcafee.com"]
+    }
+  ],
+  "government": [
     {
       "id": "gov_br",
       "name": "Gov.br",
       "official_domains": ["gov.br"]
+    },
+    {
+      "id": "receita_federal",
+      "name": "Receita Federal",
+      "official_domains": ["gov.br", "receita.economia.gov.br"]
+    },
+    {
+      "id": "inss",
+      "name": "INSS",
+      "official_domains": ["gov.br", "meu.inss.gov.br"]
     }
   ]
 }
