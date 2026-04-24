@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tá certo o site?</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Página inicial">
+        Tá certo o site?
+      </a>
+      <p class="brand-description">
+        Confira se um endereço corresponde ao domínio oficial cadastrado de uma marca.
+      </p>
+    </header>
+
+    <main class="page">
+      <div class="content-grid">
+        <section class="validator" aria-labelledby="page-title">
+          <h1 id="page-title">Compare antes de clicar</h1>
+          <p class="intro">
+            Recebeu um link por mensagem, e-mail ou rede social? Cole aqui para ver se o domínio corresponde ao oficial cadastrado.
+          </p>
+          <ol class="steps" aria-label="Como usar">
+            <li>Escolha a marca que o link diz representar.</li>
+            <li>Cole o link completo ou apenas o domínio recebido.</li>
+            <li>Clique em “Conferir site” e leia o resultado com atenção.</li>
+          </ol>
+          <p class="helper-text">
+            Se a empresa não aparecer na lista de marcas, solicite a adição para análise.
+          </p>
+
+          <form id="validation-form" class="form">
+            <label for="brand-select">Marca</label>
+            <select id="brand-select" name="brand" required>
+              <option value="">Carregando marcas...</option>
+            </select>
+
+            <label for="domain-input">URL recebida</label>
+            <input
+              id="domain-input"
+              name="domain"
+              type="text"
+              placeholder="Ex.: https://exemplo.com.br/promocao"
+              autocomplete="off"
+              required
+            >
+
+            <button type="submit">Comparar</button>
+          </form>
+
+          <div id="result" class="result" role="status" aria-live="polite" hidden></div>
+
+          <button id="open-request-modal" class="text-button" type="button">
+            Solicitar nova empresa
+          </button>
+        </section>
+
+        <aside class="education" aria-labelledby="education-title">
+          <h2 id="education-title">Por que isso importa?</h2>
+          <p>
+            Golpistas abusam da pressa, da inocência e da honestidade das pessoas. Eles usam nomes falsos, cores conhecidas e mensagens parecidas com as de empresas reais para tentar ganhar confiança.
+          </p>
+
+          <div class="tip">
+            <h3>Desconfie quando</h3>
+            <ul>
+              <li>O link chega com urgência, prêmio, multa, ameaça ou bloqueio de conta.</li>
+              <li>O e-mail ou mensagem promete promoção muito vantajosa.</li>
+              <li>Pedem senha, código, cartão ou pagamento fora do caminho normal.</li>
+            </ul>
+          </div>
+
+          <div class="tip">
+            <h3>O que olhamos para você</h3>
+            <p>
+              A URL é o endereço completo que aparece no navegador. Dentro dela fica o domínio, que é a parte principal do site.
+            </p>
+            <p class="example">Ex.: em https://www.gov.br/servicos, o domínio é gov.br.</p>
+            <p>
+              Esta ferramenta separa esse domínio e compara com a lista oficial cadastrada.<br> Se não bater, pare e confira por outro canal oficial antes de continuar.
+            </p>
+          </div>
+        </aside>
+      </div>
+
+      <dialog id="request-modal" class="modal" aria-labelledby="request-title">
+        <div class="modal-header">
+          <div>
+            <h2 id="request-title">Solicitar nova empresa</h2>
+            <p class="intro">
+              Envie uma sugestão para análise antes de entrar na lista oficial.
+            </p>
+          </div>
+          <button id="close-request-modal" class="icon-button" type="button" aria-label="Fechar">
+            ×
+          </button>
+        </div>
+
+        <form id="request-form" class="form">
+          <label for="request-brand-name">Nome da empresa</label>
+          <input
+            id="request-brand-name"
+            name="brand-name"
+            type="text"
+            placeholder="Ex.: Minha Empresa"
+            autocomplete="organization"
+            required
+          >
+
+          <label for="request-domain">Domínio oficial</label>
+          <input
+            id="request-domain"
+            name="domain"
+            type="text"
+            placeholder="Ex.: minhaempresa.com.br"
+            autocomplete="off"
+            required
+          >
+
+          <label for="request-source">Fonte para conferência</label>
+          <input
+            id="request-source"
+            name="source"
+            type="url"
+            placeholder="Ex.: página oficial, contato institucional ou documento público"
+            autocomplete="url"
+          >
+
+          <button type="submit" class="secondary-button">Solicitar adição</button>
+        </form>
+
+        <div id="request-result" class="result" role="status" aria-live="polite" hidden></div>
+      </dialog>
+
+      <dialog id="official-domains-modal" class="modal" aria-labelledby="official-domains-title">
+        <div class="modal-header">
+          <div>
+            <h2 id="official-domains-title">Domínios oficiais cadastrados</h2>
+            <p class="intro">
+              Confira a lista completa usada nesta comparação.
+            </p>
+          </div>
+          <button id="close-official-domains-modal" class="icon-button" type="button" aria-label="Fechar">
+            ×
+          </button>
+        </div>
+
+        <div id="official-domains-list" class="domain-list"></div>
+      </dialog>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
