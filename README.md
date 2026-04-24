@@ -7,7 +7,7 @@ O sistema não afirma que um site é seguro. Ele informa apenas se o domínio in
 ## Arquitetura
 
 - `backend/`: API HTTP em Python, organizada em MVC e retornando apenas JSON.
-- `frontend/`: página estática em HTML, CSS e JavaScript vanilla.
+- `docs/`: página estática em HTML, CSS e JavaScript vanilla, pronta para GitHub Pages.
 - O backend não renderiza HTML e não depende dos arquivos do frontend.
 - O frontend consome o backend apenas por chamadas HTTP.
 
@@ -27,6 +27,23 @@ Para rodar em modo produção e desabilitar `/docs`, `/redoc` e `/openapi.json`:
 APP_ENV=production poetry run uvicorn app.main:app
 ```
 
+## Deploy no Render
+
+Configuração recomendada para o backend no Render:
+
+- `Language`: Python 3
+- `Branch`: `main`
+- `Root Directory`: `backend`
+- `Build Command`: `poetry install`
+- `Start Command`: `poetry run uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+- `Environment Variable`: `APP_ENV=production`
+
+URL pública configurada no frontend:
+
+```js
+const API_BASE_URL = "https://tacertoosite.onrender.com";
+```
+
 ## CORS
 
 As origens permitidas ficam em `backend/app/main.py`, na constante `CORS_ALLOWED_ORIGINS`.
@@ -34,30 +51,31 @@ As origens permitidas ficam em `backend/app/main.py`, na constante `CORS_ALLOWED
 Em desenvolvimento, a API pode ficar aberta:
 
 ```python
-"*",
+# "*",
 ```
 
-Antes de publicar, comente a linha aberta e descomente/ajuste a origem do GitHub Pages:
+A origem pública atual do GitHub Pages já está configurada:
 
 ```python
-# "*",
-"https://SEU_USUARIO.github.io",
+"https://guedeira.github.io",
 ```
 
 ## Como Abrir o Frontend
 
 Abra o arquivo `docs/index.html` no navegador.
 
-O frontend espera que a API esteja rodando em `http://localhost:8000`.
+Em produção, o frontend chama `https://tacertoosite.onrender.com`.
+
+Para desenvolvimento local, ajuste temporariamente `API_BASE_URL` em `docs/app.js` para `http://localhost:8000`.
 
 ## Solicitação de Novas Empresas
 
 O frontend tem um formulário para solicitar a adição de novas empresas e domínios. Ele abre uma issue pré-preenchida no GitHub para revisão manual.
 
-Antes de publicar, configure a URL do repositório em `docs/app.js`:
+A URL do repositório para abrir issues está configurada em `docs/app.js`:
 
 ```js
-const GITHUB_NEW_ISSUE_URL = "https://github.com/seu-usuario/seu-repositorio/issues/new";
+const GITHUB_NEW_ISSUE_URL = "https://github.com/guedeira/tacertoosite/issues/new";
 ```
 
 ## Rotas

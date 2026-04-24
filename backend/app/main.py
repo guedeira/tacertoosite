@@ -9,10 +9,13 @@ from app.routes.validation_routes import router as validation_router
 
 
 CORS_ALLOWED_ORIGINS = [
-    # Use esta linha apenas em desenvolvimento local.
-    "*",
-    # Em producao, comente a linha acima e descomente/ajuste a linha abaixo.
-    # "https://SEU_USUARIO.github.io",
+    # Origem publica do GitHub Pages.
+    "https://guedeira.github.io",
+    # Origens úteis para testar o frontend em servidor local.
+    # "http://localhost:5500",
+    # "http://127.0.0.1:5500",
+    # Se precisar depurar CORS localmente, descomente temporariamente a linha abaixo.
+    # "*",
 ]
 
 
