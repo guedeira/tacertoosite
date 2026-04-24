@@ -16,4 +16,13 @@ class BrandRepository:
 
     def _read_data(self) -> list[dict]:
         with self.data_path.open(encoding="utf-8") as file:
-            return json.load(file)
+            data = json.load(file)
+
+        if isinstance(data, list):
+            return data
+
+        return [
+            brand
+            for brands_by_category in data.values()
+            for brand in brands_by_category
+        ]

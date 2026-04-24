@@ -1,37 +1,45 @@
-[
-  {
-    "id": "mercado_livre",
-    "name": "Mercado Livre",
-    "official_domains": ["mercadolivre.com.br", "mercadolibre.com"]
-  },
-  {
-    "id": "mercado_pago",
-    "name": "Mercado Pago",
-    "official_domains": ["mercadopago.com.br", "mercadopago.com"]
-  },
-  {
-    "id": "nubank",
-    "name": "Nubank",
-    "official_domains": ["nubank.com.br"]
-  },
-  {
-    "id": "itau",
-    "name": "Itaú",
-    "official_domains": ["itau.com.br"]
-  },
-  {
-    "id": "bradesco",
-    "name": "Bradesco",
-    "official_domains": ["bradesco.com.br"]
-  },
-  {
-    "id": "banco_do_brasil",
-    "name": "Banco do Brasil",
-    "official_domains": ["bb.com.br"]
-  },
-  {
-    "id": "gov_br",
-    "name": "Gov.br",
-    "official_domains": ["gov.br"]
-  }
-]
+{
+  "marketplaces": [
+    {
+      "id": "mercado_livre",
+      "name": "Mercado Livre",
+      "official_domains": ["mercadolivre.com.br", "mercadolibre.com"]
+    }
+  ],
+  "pagamentos": [
+    {
+      "id": "mercado_pago",
+      "name": "Mercado Pago",
+      "official_domains": ["mercadopago.com.br", "mercadopago.com"]
+    }
+  ],
+  "bancos": [
+    {
+      "id": "nubank",
+      "name": "Nubank",
+      "official_domains": ["nubank.com.br"]
+    },
+    {
+      "id": "itau",
+      "name": "Itaú",
+      "official_domains": ["itau.com.br"]
+    },
+    {
+      "id": "bradesco",
+      "name": "Bradesco",
+      "official_domains": ["bradesco.com.br"]
+    },
+    {
+      "id": "banco_do_brasil",
+      "name": "Banco do Brasil",
+      "official_domains": ["bb.com.br"]
+    }
+  ],
+  "orgaos_publicos": [
+    {
+      "id": "gov_br",
+      "name": "Gov.br",
+      "official_domains": ["gov.br"]
+    }
+  ]
+}
