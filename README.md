@@ -1,17 +1,55 @@
 # Tá certo o site?
 
-Projeto web simples para ajudar pessoas não técnicas a comparar um endereço recebido com os domínios oficiais cadastrados de marcas conhecidas.
+Uma ferramenta simples para ajudar pessoas a conferir se um endereço recebido corresponde ao domínio oficial cadastrado de uma marca conhecida.
 
-O sistema não afirma que um site é seguro. Ele informa apenas se o domínio informado corresponde ou não ao domínio oficial cadastrado para a marca selecionada.
+O projeto nasceu de um problema cotidiano: golpes usam links parecidos com os de empresas legítimas para confundir pessoas e capturar dados. O **Tá certo o site?** não promete dizer se um site é seguro, mas ajuda a responder uma pergunta mais objetiva: "esse domínio é o domínio oficial cadastrado para essa marca?"
 
-## Arquitetura
+## Como Funciona
 
-- `backend/`: API HTTP em Python, organizada em MVC e retornando apenas JSON.
-- `docs/`: página estática em HTML, CSS e JavaScript vanilla, pronta para GitHub Pages.
-- O backend não renderiza HTML e não depende dos arquivos do frontend.
-- O frontend consome o backend apenas por chamadas HTTP.
+1. A pessoa escolhe uma marca na interface.
+2. Informa o endereço que recebeu.
+3. O sistema normaliza o domínio informado e compara com os domínios oficiais cadastrados manualmente.
+4. A resposta informa se houve correspondência ou não.
 
-## Como Rodar o Backend
+O resultado deve ser tratado como apoio à verificação, não como garantia de segurança.
+
+## Principais Recursos
+
+- Comparação de domínios informados com domínios oficiais cadastrados.
+- Normalização de URLs para reduzir erros comuns de digitação e formato.
+- Frontend estático em HTML, CSS e JavaScript vanilla.
+- API HTTP em Python com FastAPI.
+- Formulário para solicitar a inclusão de novas marcas por issue no GitHub.
+
+## Limitações
+
+- Os domínios oficiais são cadastrados manualmente em `backend/app/data/brands.json`.
+- O sistema não consulta reputação, certificado, DNS, blacklist ou bases externas.
+- Um resultado positivo não garante que uma página seja segura.
+- Um resultado negativo indica apenas que o domínio não corresponde ao cadastro atual.
+- Subdomínios não são tratados como equivalentes ao domínio oficial nesta versão.
+
+## Roadmap
+
+- Melhorar mensagens de resultado para orientar próximos passos sem afirmar que um site é seguro.
+- Ampliar a base de marcas e domínios oficiais cadastrados.
+- Adicionar fontes de referência para cada domínio oficial cadastrado.
+- Tratar subdomínios oficiais de forma mais clara.
+- Criar filtros, busca ou categorias para facilitar a navegação por marcas.
+- Melhorar acessibilidade, responsividade e estados de erro do frontend atual.
+- Adicionar mais testes para casos de URL parecida, domínio internacionalizado e entradas malformadas.
+- Criar um processo mais estruturado para revisar solicitações de novas marcas.
+- Integrar um banco de dados para armazenar marcas, domínios, fontes e solicitações.
+- Criar um sistema interno de reputação para domínios, com histórico de análises e sinais próprios.
+- Integrar com o VirusTotal para consultar reputação e detecções conhecidas de domínios informados.
+- Substituir o frontend estático por uma aplicação mais moderna e escalável.
+- Exibir uma análise mais completa combinando domínio oficial, reputação interna, VirusTotal e outros sinais de risco.
+
+## Como Rodar
+
+As instruções completas de instalação, execução local, deploy e convenções estão em [DEVELOPMENT.md](./DEVELOPMENT.md).
+
+Resumo rápido:
 
 ```bash
 cd backend
@@ -19,105 +57,39 @@ poetry install
 poetry run uvicorn app.main:app --reload
 ```
 
-A API ficará disponível em `http://localhost:8000`.
+Depois, abra `docs/index.html` no navegador. Para usar a API local, ajuste temporariamente `API_BASE_URL` em `docs/app.js` para `http://localhost:8000`.
 
-Para rodar em modo produção e desabilitar `/docs`, `/redoc` e `/openapi.json`:
+## Como Contribuir
 
-```bash
-APP_ENV=production poetry run uvicorn app.main:app
-```
+Contribuições são bem-vindas, especialmente em:
 
-## Deploy no Render
+- cadastro ou correção de marcas e domínios oficiais;
+- melhorias de acessibilidade e clareza na interface;
+- testes para validação e normalização de domínios;
+- melhorias de documentação;
+- correções de segurança e confiabilidade.
 
-Configuração recomendada para o backend no Render:
+Antes de abrir um pull request:
 
-- `Language`: Python 3
-- `Branch`: `main`
-- `Root Directory`: `backend`
-- `Build Command`: `poetry install`
-- `Start Command`: `poetry run uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-- `Environment Variable`: `APP_ENV=production`
+1. Rode os testes do backend.
+2. Mantenha mudanças pequenas e focadas.
+3. Explique a motivação da alteração.
+4. Para novas marcas, inclua uma fonte confiável que comprove o domínio oficial.
 
-URL pública configurada no frontend:
+Também é possível solicitar uma nova marca diretamente pela interface, que abre uma issue pré-preenchida para revisão manual.
 
-```js
-const API_BASE_URL = "https://tacertoosite.onrender.com";
-```
+## Desenvolvimento
 
-## CORS
+Consulte [DEVELOPMENT.md](./DEVELOPMENT.md) para:
 
-As origens permitidas ficam em `backend/app/main.py`, na constante `CORS_ALLOWED_ORIGINS`.
+- requisitos locais;
+- comandos de instalação e testes;
+- arquitetura;
+- rotas da API;
+- configuração de CORS;
+- deploy no Render;
+- convenções do projeto.
 
-Em desenvolvimento, a API pode ficar aberta:
+## Licença
 
-```python
-# "*",
-```
-
-A origem pública atual do GitHub Pages já está configurada:
-
-```python
-"https://guedeira.github.io",
-```
-
-## Como Abrir o Frontend
-
-Abra o arquivo `docs/index.html` no navegador.
-
-Em produção, o frontend chama `https://tacertoosite.onrender.com`.
-
-Para desenvolvimento local, ajuste temporariamente `API_BASE_URL` em `docs/app.js` para `http://localhost:8000`.
-
-## Solicitação de Novas Empresas
-
-O frontend tem um formulário para solicitar a adição de novas empresas e domínios. Ele abre uma issue pré-preenchida no GitHub para revisão manual.
-
-A URL do repositório para abrir issues está configurada em `docs/app.js`:
-
-```js
-const GITHUB_NEW_ISSUE_URL = "https://github.com/guedeira/tacertoosite/issues/new";
-```
-
-## Rotas
-
-- `GET /brands`: lista marcas disponíveis.
-- `GET /brands/{brand_id}`: retorna detalhes de uma marca.
-- `GET /health`: verifica se a API está ativa.
-- `POST /validate-domain`: compara o domínio informado com os domínios oficiais cadastrados.
-
-No frontend, a página chama `/health` ao abrir. Em hospedagens gratuitas como Render, essa chamada ajuda a acordar o serviço quando ele ficou inativo e mostra uma mensagem enquanto a API inicializa.
-
-Exemplo de payload:
-
-```json
-{
-  "brand_id": "mercado_livre",
-  "input": "https://mercadoIivre.com.br/promocao"
-}
-```
-
-Exemplo de resposta:
-
-```json
-{
-  "is_match": false,
-  "brand": "Mercado Livre",
-  "official_domains": ["mercadolivre.com.br"],
-  "submitted_domain": "mercadoiivre.com.br",
-  "message": "O endereço informado não corresponde ao domínio oficial cadastrado para Mercado Livre."
-}
-```
-
-## Testes
-
-```bash
-cd backend
-poetry run python -m unittest discover -s tests
-```
-
-## Limitações
-
-- Os domínios oficiais são cadastrados manualmente em `backend/app/data/brands.json`.
-- Não há consulta externa, reputação de site, certificado, DNS ou blacklist.
-- O resultado não deve ser interpretado como garantia de segurança.
-- Subdomínios não são tratados como equivalentes ao domínio oficial nesta versão.
+Este projeto está licenciado sob a licença MIT. Consulte [LICENSE.md](./LICENSE.md) para mais detalhes.
