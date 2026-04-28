@@ -55,6 +55,16 @@
       "official_domains": ["amazon.com", "amazon.com.br"]
     },
     {
+      "id": "aliexpress",
+      "name": "AliExpress",
+      "official_domains": ["aliexpress.com", "pt.aliexpress.com"]
+    },
+    {
+      "id": "ebay",
+      "name": "eBay",
+      "official_domains": ["ebay.com"]
+    },
+    {
       "id": "mercado_livre",
       "name": "Mercado Livre",
       "official_domains": ["mercadolivre.com.br", "mercadolibre.com"]
@@ -68,6 +78,21 @@
       "id": "americanas",
       "name": "Americanas",
       "official_domains": ["americanas.com.br"]
+    },
+    {
+      "id": "nuvemshop",
+      "name": "Nuvemshop",
+      "official_domains": ["nuvemshop.com.br"]
+    },
+    {
+      "id": "shein",
+      "name": "SHEIN",
+      "official_domains": ["shein.com", "br.shein.com"]
+    },
+    {
+      "id": "shopee",
+      "name": "Shopee",
+      "official_domains": ["shopee.com.br"]
     }
   ],
   "payments": [
