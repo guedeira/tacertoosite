@@ -1,12 +1,12 @@
 # Tá certo o site?
 
-Uma ferramenta simples para ajudar pessoas a conferir se um endereço recebido corresponde ao domínio oficial cadastrado de uma marca conhecida.
+Uma ferramenta simples para ajudar pessoas a conferir se um endereço recebido corresponde ao domínio oficial cadastrado de uma empresa conhecida.
 
-O projeto nasceu de um problema cotidiano: golpes usam links parecidos com os de empresas legítimas para confundir pessoas e capturar dados. O **Tá certo o site?** não promete dizer se um site é seguro, mas ajuda a responder uma pergunta mais objetiva: "esse domínio é o domínio oficial cadastrado para essa marca?"
+O projeto nasceu de um problema cotidiano: golpes usam links parecidos com os de empresas legítimas para confundir pessoas e capturar dados. O **Tá certo o site?** não promete dizer se um site é seguro, mas ajuda a responder uma pergunta mais objetiva: "esse domínio é o domínio oficial cadastrado para essa empresa?"
 
 ## Como Funciona
 
-1. A pessoa escolhe uma marca na interface.
+1. A pessoa escolhe uma empresa na interface.
 2. Informa o endereço que recebeu.
 3. O sistema normaliza o domínio informado e compara com os domínios oficiais cadastrados manualmente.
 4. A resposta informa se houve correspondência ou não.
@@ -19,7 +19,7 @@ O resultado deve ser tratado como apoio à verificação, não como garantia de 
 - Normalização de URLs para reduzir erros comuns de digitação e formato.
 - Frontend estático em HTML, CSS e JavaScript vanilla.
 - API HTTP em Python com FastAPI.
-- Formulário para solicitar a inclusão de novas marcas por issue no GitHub.
+- Formulário para solicitar a inclusão de novas empresas por issue no GitHub.
 
 ## Limitações
 
@@ -31,19 +31,32 @@ O resultado deve ser tratado como apoio à verificação, não como garantia de 
 
 ## Roadmap
 
-- Melhorar mensagens de resultado para orientar próximos passos sem afirmar que um site é seguro.
-- Ampliar a base de marcas e domínios oficiais cadastrados.
-- Adicionar fontes de referência para cada domínio oficial cadastrado.
-- Tratar subdomínios oficiais de forma mais clara.
-- Criar filtros, busca ou categorias para facilitar a navegação por marcas.
-- Melhorar acessibilidade, responsividade e estados de erro do frontend atual.
-- Adicionar mais testes para casos de URL parecida, domínio internacionalizado e entradas malformadas.
-- Criar um processo mais estruturado para revisar solicitações de novas marcas.
-- Integrar um banco de dados para armazenar marcas, domínios, fontes e solicitações.
-- Criar um sistema interno de reputação para domínios, com histórico de análises e sinais próprios.
-- Integrar com o VirusTotal para consultar reputação e detecções conhecidas de domínios informados.
-- Substituir o frontend estático por uma aplicação mais moderna e escalável.
-- Exibir uma análise mais completa combinando domínio oficial, reputação interna, VirusTotal e outros sinais de risco.
+- Integrar ferramentas externas para consultar a reputação do domínio analisado:
+  - Google Safe Browsing;
+  - AlienVault OTX;
+  - AbuseIPDB;
+  - VirusTotal;
+  - URLhaus;
+  - isMalicious;
+  - alphaMountain;
+  - Shodan;
+  - Web of Trust.
+- Implementar banco de dados para armazenar empresas cadastradas, resultados de integrações e histórico de análises.
+- Criar painel de reputação global e por empresa.
+- Criar um checklist antigolpe para ajudar pessoas não técnicas a avaliar sinais de risco:
+  - domínio conferido no Tá certo o site?;
+  - link recebido por mensagem suspeita?;
+  - presença de urgência ou pressão?;
+  - existência de redirecionamento?;
+  - acesso possível pelo site oficial?.
+- Criar vídeos curtos de conscientização para pessoas não técnicas:
+  - como identificar a URL e o domínio;
+  - sinais comuns de golpe;
+  - golpes por WhatsApp, Telegram e outros canais;
+  - como verificar um link antes de clicar.
+- Criar um score de reputação interno, cruzando sinais como volume de consultas e histórico de análises.
+- Melhorar a experiência do frontend.
+- Padronizar nomes internos (vars) do frontend e backend de `brand` para `company`, acompanhando a linguagem exibida ao usuário.
 
 ## Como Rodar
 
@@ -63,7 +76,7 @@ Depois, abra `docs/index.html` no navegador. Para usar a API local, ajuste tempo
 
 Contribuições são bem-vindas, especialmente em:
 
-- cadastro ou correção de marcas e domínios oficiais;
+- cadastro ou correção de empresas e domínios oficiais;
 - melhorias de acessibilidade e clareza na interface;
 - testes para validação e normalização de domínios;
 - melhorias de documentação;
@@ -74,9 +87,9 @@ Antes de abrir um pull request:
 1. Rode os testes do backend.
 2. Mantenha mudanças pequenas e focadas.
 3. Explique a motivação da alteração.
-4. Para novas marcas, inclua uma fonte confiável que comprove o domínio oficial.
+4. Para novas empresas, inclua uma fonte confiável que comprove o domínio oficial.
 
-Também é possível solicitar uma nova marca diretamente pela interface, que abre uma issue pré-preenchida para revisão manual.
+Também é possível solicitar uma nova empresa diretamente pela interface, que abre uma issue pré-preenchida para revisão manual.
 
 ## Desenvolvimento
 

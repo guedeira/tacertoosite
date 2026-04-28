@@ -23,13 +23,13 @@ class DomainValidationServiceTest(unittest.TestCase):
         result = self.service.validate("nubank", "nubank")
 
         self.assertFalse(result.is_match)
-        self.assertEqual(result.message, "Digite um endereço válido.")
+        self.assertEqual(result.message, "Digite um link ou endereço válido.")
 
     def test_rejects_unknown_brand(self) -> None:
-        result = self.service.validate("marca_inexistente", "nubank.com.br")
+        result = self.service.validate("empresa_inexistente", "nubank.com.br")
 
         self.assertFalse(result.is_match)
-        self.assertEqual(result.message, "Selecione uma marca válida.")
+        self.assertEqual(result.message, "Selecione uma empresa válida.")
 
 
 if __name__ == "__main__":

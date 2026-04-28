@@ -15,5 +15,5 @@ def list_brands() -> list[dict]:
 def get_brand(brand_id: str) -> dict:
     brand = controller.get_brand(brand_id)
     if brand is None:
-        raise HTTPException(status_code=404, detail="Marca não encontrada.")
+        raise HTTPException(status_code=404, detail="Empresa não encontrada.")
     return brand

@@ -22,17 +22,22 @@ const officialDomainsModal = document.querySelector("#official-domains-modal");
 const closeOfficialDomainsModalButton = document.querySelector("#close-official-domains-modal");
 const officialDomainsList = document.querySelector("#official-domains-list");
 const openRequestModalInlineButton = document.querySelector("#open-request-modal-inline");
+const openBrandsModalButton = document.querySelector("#open-brands-modal");
+const closeBrandsModalButton = document.querySelector("#close-brands-modal");
+const brandsModal = document.querySelector("#brands-modal");
+const brandsList = document.querySelector("#brands-list");
 
 let brands = [];
 let currentOfficialDomains = [];
 
 async function initializeApp() {
   setFormAvailability(false);
-  showServiceStatus("Inicializando os serviços. Isso pode levar alguns segundos na primeira visita.");
+  showServiceStatus("Conectando com o servidor. Isso pode levar alguns segundos na primeira visita.");
+  await wait(2500);
 
   const isBackendReady = await waitForBackend();
   if (!isBackendReady) {
-    showServiceStatus("Não foi possível conectar ao serviço agora. Aguarde um pouco e tente recarregar a página.", "error");
+    showServiceStatus("Não conseguimos conectar agora. Aguarde um pouco e recarregue a página.", "error");
     setBrands([]);
     return;
   }
@@ -52,7 +57,7 @@ async function waitForBackend() {
         return true;
       }
     } catch (error) {
-      showServiceStatus(`Inicializando os serviços. Tentativa ${attempt} de ${maxAttempts}...`);
+      showServiceStatus(`Conectando com o servidor. Tentativa ${attempt} de ${maxAttempts}...`);
     }
 
     await wait(2500);
@@ -85,21 +90,22 @@ async function loadBrands() {
   try {
     const response = await fetch(`${API_BASE_URL}/brands`);
     if (!response.ok) {
-      throw new Error("Não foi possível carregar as marcas.");
+      throw new Error("Não foi possível carregar as empresas.");
     }
 
     const loadedBrands = await response.json();
     setBrands(loadedBrands);
   } catch (error) {
-    renderError("Não foi possível carregar a lista de marcas.");
+    renderError("Não conseguimos carregar a lista de empresas.");
   }
 }
 
 function setBrands(loadedBrands) {
   brands = loadedBrands;
   brandSearch.placeholder = brands.length === 0
-    ? "Marcas indisponíveis no momento"
-    : "Digite o nome da marca";
+    ? "Lista indisponível no momento"
+    : "Digite o nome da empresa";
+  renderBrandsList();
 }
 
 function showServiceStatus(message, type = "info") {
@@ -208,12 +214,12 @@ async function validateDomain(event) {
   };
 
   if (!payload.brand_id) {
-    renderError("Selecione uma marca da lista.");
+    renderError("Selecione uma empresa da lista.");
     return;
   }
 
   if (!payload.input.trim()) {
-    renderError("Digite um endereço válido.");
+    renderError("Digite um link ou endereço válido.");
     return;
   }
 
@@ -231,7 +237,7 @@ async function validateDomain(event) {
     const result = await response.json();
     renderValidationResult(result);
   } catch (error) {
-    renderError("Não foi possível verificar o endereço agora.");
+    renderError("Não conseguimos comparar agora. Tente de novo em instantes.");
   } finally {
     setLoading(false);
   }
@@ -239,8 +245,8 @@ async function validateDomain(event) {
 
 function renderValidationResult(result) {
   const statusText = result.is_match
-    ? "Esse endereço corresponde ao domínio oficial cadastrado."
-    : "Atenção: esse endereço não corresponde ao domínio oficial cadastrado.";
+    ? "O link bate com o endereço oficial cadastrado."
+    : "Atenção: o link não bate com o endereço oficial cadastrado.";
   const officialDomains = Array.isArray(result.official_domains) ? result.official_domains : [];
   const officialDomainsHtml = result.is_match ? "" : renderOfficialDomainsPreview(officialDomains);
 
@@ -252,7 +258,7 @@ function renderValidationResult(result) {
     <strong>${statusText}</strong>
     <span>${escapeHtml(result.message)}</span>
     ${officialDomainsHtml}
-    ${result.submitted_domain ? `<small>Domínio verificado: ${escapeHtml(result.submitted_domain)}</small>` : ""}
+    ${result.submitted_domain ? `<small>Domínio comparado: ${escapeHtml(result.submitted_domain)}</small>` : ""}
   `;
 }
 
@@ -263,13 +269,13 @@ function renderOfficialDomainsPreview(officialDomains) {
 
   const visibleDomains = officialDomains.slice(0, 4);
   const label = officialDomains.length === 1
-    ? "Domínio oficial cadastrado:"
-    : "Domínios oficiais cadastrados:";
+    ? "Endereço oficial cadastrado:"
+    : "Endereços oficiais cadastrados:";
   const domainsHtml = visibleDomains
     .map((domain) => `<strong class="domain-pill">${escapeHtml(domain)}</strong>`)
     .join("");
   const buttonHtml = officialDomains.length > 4
-    ? '<button id="open-official-domains-modal" class="inline-button" type="button">Ver mais</button>'
+    ? '<button id="open-official-domains-modal" class="inline-button" type="button">Ver todos</button>'
     : "";
 
   return `
@@ -317,6 +323,58 @@ function closeRequestModalOnBackdrop(event) {
   if (clickedOutsideModal(event, requestModal)) {
     closeRequestModal();
   }
+}
+
+function openBrandsModal() {
+  renderBrandsList();
+  brandsModal.showModal();
+  closeBrandsModalButton.focus();
+}
+
+function closeBrandsModal() {
+  brandsModal.close();
+  openBrandsModalButton.focus();
+}
+
+function closeBrandsModalOnBackdrop(event) {
+  if (clickedOutsideModal(event, brandsModal)) {
+    closeBrandsModal();
+  }
+}
+
+function renderBrandsList() {
+  if (brands.length === 0) {
+    brandsList.innerHTML = "<p>Lista indisponível no momento.</p>";
+    return;
+  }
+
+  brandsList.innerHTML = [...brands]
+    .sort((firstBrand, secondBrand) => firstBrand.name.localeCompare(secondBrand.name, "pt-BR"))
+    .map((brand) => `
+      <button class="brand-list-item" type="button" data-brand-id="${escapeHtml(brand.id)}">
+        ${escapeHtml(brand.name)}
+      </button>
+    `)
+    .join("");
+}
+
+function handleBrandsListClick(event) {
+  const button = event.target.closest(".brand-list-item");
+  if (!button) {
+    return;
+  }
+
+  const selectedBrand = brands.find((brand) => brand.id === button.dataset.brandId);
+  if (!selectedBrand) {
+    return;
+  }
+
+  brandSearch.value = selectedBrand.name;
+  brandIdInput.value = selectedBrand.id;
+  brandNotFound.hidden = true;
+  hideBrandSuggestions();
+  closeBrandsModal();
+  domainInput.focus();
 }
 
 function openOfficialDomainsModal() {
@@ -373,13 +431,13 @@ function requestBrandAddition(event) {
   }
 
   if (GITHUB_NEW_ISSUE_URL.includes("SEU_USUARIO")) {
-    renderRequestMessage("Configure a URL do repositório no arquivo app.js antes de enviar solicitações.", "error");
+    renderRequestMessage("Configure o repositório no arquivo app.js antes de enviar pedidos.", "error");
     return;
   }
 
-  const title = `Adicionar domínio oficial: ${brandName}`;
+  const title = `Incluir domínio oficial: ${brandName}`;
   const body = [
-    "## Solicitação de nova empresa",
+    "## Pedido de inclusão de empresa",
     "",
     `Empresa: ${brandName}`,
     `Domínio oficial sugerido: ${domain}`,
@@ -396,7 +454,7 @@ function requestBrandAddition(event) {
   const issueUrl = `${GITHUB_NEW_ISSUE_URL}?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
   window.open(issueUrl, "_blank", "noopener,noreferrer");
 
-  renderRequestMessage("A solicitação foi aberta no GitHub para revisão.", "match");
+  renderRequestMessage("O pedido foi aberto no GitHub para revisão.", "match");
   requestForm.reset();
 }
 
@@ -425,6 +483,10 @@ openRequestModalInlineButton.addEventListener("click", openRequestModal);
 closeRequestModalButton.addEventListener("click", closeRequestModal);
 requestModal.addEventListener("click", closeRequestModalOnBackdrop);
 requestForm.addEventListener("submit", requestBrandAddition);
+openBrandsModalButton.addEventListener("click", openBrandsModal);
+closeBrandsModalButton.addEventListener("click", closeBrandsModal);
+brandsModal.addEventListener("click", closeBrandsModalOnBackdrop);
+brandsList.addEventListener("click", handleBrandsListClick);
 closeOfficialDomainsModalButton.addEventListener("click", closeOfficialDomainsModal);
 officialDomainsModal.addEventListener("click", closeOfficialDomainsModalOnBackdrop);
 initializeApp();

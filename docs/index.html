@@ -12,7 +12,7 @@
         Tá certo o site?
       </a>
       <p class="brand-description">
-        Confira se um endereço corresponde ao domínio oficial cadastrado de uma marca.
+        Confira se um link usa o endereço oficial cadastrado de uma empresa.
       </p>
     </header>
 
@@ -21,27 +21,27 @@
         <section class="validator" aria-labelledby="page-title">
           <h1 id="page-title">Compare antes de clicar</h1>
           <p class="intro">
-            Recebeu um link por mensagem, e-mail ou rede social? Cole aqui para ver se o domínio corresponde ao oficial cadastrado.
+            Recebeu um link por mensagem, e-mail ou rede social? Cole aqui para comparar com o endereço oficial cadastrado.
           </p>
           <ol class="steps" aria-label="Como usar">
-            <li>Escolha a marca que o link diz representar.</li>
-            <li>Cole o link completo ou apenas o domínio recebido.</li>
-            <li>Clique em “Conferir site” e leia o resultado com atenção.</li>
+            <li>Escolha a empresa que o link diz representar.</li>
+            <li>Cole o link completo ou o endereço do site.</li>
+            <li>Clique em “Comparar” e leia o resultado com atenção.</li>
           </ol>
           <p class="helper-text">
-            Se a empresa não aparecer na lista de marcas, solicite a adição para análise.
+            Se a empresa não aparecer na lista, peça a inclusão para análise.
           </p>
 
           <div id="service-status" class="service-status" role="status" aria-live="polite" hidden></div>
 
           <form id="validation-form" class="form">
-            <label for="brand-search">Marca</label>
+            <label for="brand-search">Empresa</label>
             <div class="brand-search">
               <input
                 id="brand-search"
                 name="brand-search"
                 type="text"
-                placeholder="Digite o nome da marca"
+                placeholder="Digite o nome da empresa"
                 autocomplete="off"
                 aria-describedby="brand-search-help"
                 required
@@ -50,13 +50,14 @@
               <div id="brand-suggestions" class="brand-suggestions" role="listbox" hidden></div>
             </div>
             <p id="brand-search-help" class="field-hint">
-              Comece a digitar e selecione uma marca da lista.
+              Comece a digitar e selecione uma empresa da lista.
+              <button id="open-brands-modal" class="link-button" type="button">Ver empresas disponíveis</button>.
             </p>
             <p id="brand-not-found" class="field-hint brand-not-found" hidden>
-              Não encontrou a empresa? <button id="open-request-modal-inline" class="link-button" type="button">Solicite a adição</button>.
+              Não encontrou a empresa? <button id="open-request-modal-inline" class="link-button" type="button">Peça a inclusão</button>.
             </p>
 
-            <label for="domain-input">URL recebida</label>
+            <label for="domain-input">Link recebido</label>
             <input
               id="domain-input"
               name="domain"
@@ -72,14 +73,14 @@
           <div id="result" class="result" role="status" aria-live="polite" hidden></div>
 
           <button id="open-request-modal" class="text-button" type="button">
-            Solicitar nova empresa
+            Pedir inclusão de empresa
           </button>
         </section>
 
         <aside class="education" aria-labelledby="education-title">
           <h2 id="education-title">Por que isso importa?</h2>
           <p>
-            Golpistas abusam da pressa, da inocência e da honestidade das pessoas. Eles usam nomes falsos, cores conhecidas e mensagens parecidas com as de empresas reais para tentar ganhar confiança.
+            Golpistas abusam da pressa e da confiança das pessoas. Eles usam nomes, cores e mensagens parecidas com as de empresas reais.
           </p>
 
           <div class="tip">
@@ -94,11 +95,11 @@
           <div class="tip">
             <h3>O que olhamos para você</h3>
             <p>
-              A URL é o endereço completo que aparece no navegador. Dentro dela fica o domínio, que é a parte principal do site.
+              O link completo tem uma parte principal chamada domínio. É ele que mostra de qual site o link veio.
             </p>
             <p class="example">Ex.: em https://www.gov.br/servicos, o domínio é gov.br.</p>
             <p>
-              Esta ferramenta separa esse domínio e compara com a lista oficial cadastrada.<br> Se não bater, pare e confira por outro canal oficial antes de continuar.
+              A ferramenta separa esse domínio e compara com a lista cadastrada.<br> Se não bater, pare e confira por outro canal oficial antes de continuar.
             </p>
           </div>
         </aside>
@@ -107,9 +108,9 @@
       <dialog id="request-modal" class="modal" aria-labelledby="request-title">
         <div class="modal-header">
           <div>
-            <h2 id="request-title">Solicitar nova empresa</h2>
+            <h2 id="request-title">Pedir inclusão de empresa</h2>
             <p class="intro">
-              Envie uma sugestão para análise antes de entrar na lista oficial.
+              Envie a empresa para análise antes de ela entrar na lista.
             </p>
           </div>
           <button id="close-request-modal" class="icon-button" type="button" aria-label="Fechar">
@@ -123,7 +124,7 @@
             id="request-brand-name"
             name="brand-name"
             type="text"
-            placeholder="Ex.: Minha Empresa"
+            placeholder="Ex.: Empresa XPTO"
             autocomplete="organization"
             required
           >
@@ -133,20 +134,20 @@
             id="request-domain"
             name="domain"
             type="text"
-            placeholder="Ex.: minhaempresa.com.br"
+            placeholder="Ex.: empresaxpto.com.br"
             autocomplete="off"
             required
           >
 
           <label for="request-source">Fonte para conferência</label>
           <p class="field-hint" id="request-source-hint">
-            Cole uma página oficial, perfil verificado, documento público ou outro link que ajude a confirmar esse domínio.
+            Cole um site oficial, perfil verificado, documento público ou outro link que ajude a confirmar essa empresa.
           </p>
           <input
             id="request-source"
             name="source"
             type="url"
-            placeholder="Ex.: https://www.empresa.com.br/sobre"
+            placeholder="Ex.: https://www.empresaxpto.com.br/sobre"
             autocomplete="url"
             aria-describedby="request-source-hint"
           >
@@ -163,10 +164,26 @@
             Opcional, até 500 caracteres.
           </p>
 
-          <button type="submit" class="secondary-button">Solicitar adição</button>
+          <button type="submit" class="secondary-button">Enviar pedido</button>
         </form>
 
         <div id="request-result" class="result" role="status" aria-live="polite" hidden></div>
+      </dialog>
+
+      <dialog id="brands-modal" class="modal" aria-labelledby="brands-title">
+        <div class="modal-header">
+          <div>
+            <h2 id="brands-title">Empresas disponíveis</h2>
+            <p class="intro">
+              Veja as empresas que já podem ser comparadas.
+            </p>
+          </div>
+          <button id="close-brands-modal" class="icon-button" type="button" aria-label="Fechar">
+            ×
+          </button>
+        </div>
+
+        <div id="brands-list" class="brand-list"></div>
       </dialog>
 
       <dialog id="official-domains-modal" class="modal" aria-labelledby="official-domains-title">
@@ -174,7 +191,7 @@
           <div>
             <h2 id="official-domains-title">Domínios oficiais cadastrados</h2>
             <p class="intro">
-              Confira a lista completa usada nesta comparação.
+              Veja a lista usada nesta comparação.
             </p>
           </div>
           <button id="close-official-domains-modal" class="icon-button" type="button" aria-label="Fechar">
@@ -187,7 +204,7 @@
     </main>
 
     <footer class="site-footer">
-      <a href="politicas/termos-de-uso.md" target="_blank" rel="noopener noreferrer">
+      <a href="./politicas/termos-de-uso.html">
         Termos de uso
       </a>
     </footer>

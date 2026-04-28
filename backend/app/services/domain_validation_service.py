@@ -24,7 +24,7 @@ class DomainValidationService:
                 brand=brand.name,
                 official_domains=brand.official_domains,
                 submitted_domain=submitted_domain,
-                message="Digite um endereço válido.",
+                message="Digite um link ou endereço válido.",
             )
 
         official_domains = [self.normalizer.normalize(domain) for domain in brand.official_domains]
@@ -40,8 +40,8 @@ class DomainValidationService:
 
     def _build_message(self, is_match: bool, brand_name: str) -> str:
         if is_match:
-            return f"O endereço informado corresponde ao domínio oficial cadastrado para {brand_name}."
-        return f"O endereço informado não corresponde ao domínio oficial cadastrado para {brand_name}."
+            return f"Ele está na lista cadastrada para {brand_name}. Ainda assim, confira a página antes de informar dados."
+        return f"Ele não está na lista cadastrada para {brand_name}. Use um canal oficial da empresa antes de continuar."
 
     def _invalid_brand_result(self) -> ValidationResult:
         return ValidationResult(
@@ -49,5 +49,5 @@ class DomainValidationService:
             brand="",
             official_domains=[],
             submitted_domain="",
-            message="Selecione uma marca válida.",
+            message="Selecione uma empresa válida.",
         )
