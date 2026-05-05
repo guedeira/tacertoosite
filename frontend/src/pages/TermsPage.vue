@@ -1,0 +1,86 @@
+<script setup lang="ts">
+import AppLogo from "../components/atoms/AppLogo.vue";
+</script>
+
+<template>
+  <main class="policy-shell">
+    <article class="policy-page" aria-labelledby="policy-title">
+      <div class="policy-page__topbar">
+        <AppLogo class="policy-page__brand" href="../index.html" label="Voltar para a página inicial" />
+        <a class="back-link" href="../index.html">Voltar para a página principal</a>
+      </div>
+
+      <h1 id="policy-title">Termos de uso</h1>
+      <p class="policy-updated">Última atualização: 5 de maio de 2026</p>
+
+      <section>
+        <h2>1. Objetivo da aplicação</h2>
+        <p>
+          O <strong>Tá certo o site?</strong> é uma ferramenta informativa que compara o link informado com os endereços oficiais cadastrados para uma empresa.
+        </p>
+        <p>
+          A aplicação ajuda a perceber se a parte principal do link, chamada domínio, bate com a lista mantida na base do projeto.
+        </p>
+      </section>
+
+      <section>
+        <h2>2. O que a aplicação faz</h2>
+        <ul>
+          <li>recebe um link completo ou endereço principal informado pela pessoa;</li>
+          <li>identifica e organiza o domínio principal;</li>
+          <li>compara esse domínio com os endereços oficiais cadastrados para a empresa selecionada;</li>
+          <li>informa se houve correspondência com a base cadastrada.</li>
+        </ul>
+        <p>
+          O servidor roda em uma infraestrutura gratuita e pode levar alguns segundos para responder quando estiver acordando.
+        </p>
+      </section>
+
+      <section>
+        <h2>3. O que a aplicação não faz</h2>
+        <p>A aplicação <strong>não garante que um site é seguro</strong> e não realiza análise completa de risco.</p>
+        <ul>
+          <li>não consulta reputação, blacklist, DNS ou certificado digital;</li>
+          <li>não analisa vírus, phishing, malware ou conteúdo da página;</li>
+          <li>não confirma informações jurídicas, financeiras ou técnicas sobre empresas;</li>
+          <li>não substitui verificação por canais oficiais.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>4. Responsabilidade de uso</h2>
+        <p>
+          Cada pessoa é responsável pelas decisões tomadas a partir das informações exibidas. Antes de informar dados pessoais, senhas, códigos, dados bancários ou realizar pagamentos, confira por canais oficiais.
+        </p>
+      </section>
+
+      <section>
+        <h2>5. Lista de endereços cadastrados</h2>
+        <p>
+          Os domínios oficiais são cadastrados manualmente e podem estar incompletos, desatualizados ou conter erro. Pedidos de inclusão, correção ou remoção passam por revisão e não garantem aprovação.
+        </p>
+      </section>
+
+      <section>
+        <h2>6. Limitação de responsabilidade</h2>
+        <p>
+          Dentro do permitido pela lei, os responsáveis pela aplicação não se responsabilizam por perdas, danos, fraudes, decisões financeiras, exposição de dados ou outras consequências do uso das informações apresentadas.
+        </p>
+      </section>
+
+      <section>
+        <h2>7. Uso adequado</h2>
+        <p>
+          A aplicação deve ser usada de forma legítima, sem tentar prejudicar, sobrecarregar, explorar falhas ou interferir no funcionamento do serviço.
+        </p>
+      </section>
+
+      <section>
+        <h2>8. Alterações nos termos</h2>
+        <p>
+          Estes termos podem ser atualizados a qualquer momento. A versão vigente será aquela publicada nesta página.
+        </p>
+      </section>
+    </article>
+  </main>
+</template>

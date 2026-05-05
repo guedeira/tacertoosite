@@ -7,7 +7,8 @@ Este documento reúne o que um dev precisa saber para trabalhar no projeto sem p
 O projeto é dividido em duas partes:
 
 - `backend/`: API em Python com FastAPI.
-- `docs/`: frontend estático em HTML, CSS e JavaScript vanilla, publicado como site estático.
+- `frontend/`: aplicação Vue 3 com Vite e TypeScript.
+- `docs/`: build estático gerado pelo Vite e publicado como site estático.
 
 A regra principal do produto é simples: o backend normaliza o domínio informado pela pessoa usuária e compara esse domínio com a lista manual de domínios oficiais cadastrados em `backend/app/data/brands.json`.
 
@@ -17,9 +18,8 @@ O resultado é apoio à verificação, não garantia de segurança. Evite textos
 
 - Python 3.12 ou superior.
 - Poetry.
+- Node.js e npm para rodar e gerar o frontend.
 - Navegador moderno para testar o frontend estático.
-
-O frontend não tem etapa de build, empacotador ou dependências externas.
 
 ## Como Rodar Localmente
 
@@ -31,34 +31,58 @@ poetry install
 poetry run uvicorn app.main:app --reload
 ```
 
-Abra o frontend pelo arquivo `docs/index.html` ou por um servidor estático local.
+Em outro terminal, instale e rode o frontend:
 
-Para apontar o frontend para a API local, altere temporariamente `API_BASE_URL` em `docs/app.js` para:
-
-```js
-const API_BASE_URL = "http://localhost:8000";
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
-Não commite essa troca quando ela for usada apenas para teste local.
+O Vite usa proxy em `/api` durante o desenvolvimento para evitar mudanças de CORS no backend. Em produção, o frontend usa `VITE_API_BASE_URL` ou, por padrão, `https://tacertoosite.onrender.com`.
+
+Para gerar o build estático publicado em `docs/`:
+
+```bash
+cd frontend
+npm run build
+```
 
 ## Testes
 
-Os testes ficam em `backend/tests` e usam `unittest`.
+Os testes do backend ficam em `backend/tests` e usam `unittest`.
 
-Para rodar:
+Para rodar o backend:
 
 ```bash
 cd backend
 poetry run python -m unittest discover
 ```
 
-Adicione ou atualize testes quando mexer em:
+Os testes do frontend ficam próximos ao código em `frontend/src` e usam Vitest.
+
+Para rodar o frontend:
+
+```bash
+cd frontend
+npm run typecheck
+npm test
+```
+
+Adicione ou atualize testes de backend quando mexer em:
 
 - normalização de domínio;
 - validação de domínio;
 - regras de segurança de entrada;
 - estrutura do cadastro de empresas;
 - comportamento que altere a resposta esperada pela interface.
+
+Adicione ou atualize testes de frontend quando mexer em:
+
+- filtros e seleção de empresas;
+- serviços HTTP;
+- estados de resultado, erro e carregamento;
+- componentes com regras de interação relevantes.
 
 ## Arquitetura do Backend
 
@@ -86,21 +110,22 @@ class ExampleService:
 
 ## Frontend
 
-O frontend em `docs` é propositalmente simples:
+O frontend em `frontend/` é organizado com Vue 3, Vite e TypeScript:
 
-- HTML sem framework.
-- CSS em `docs/styles.css`.
-- JavaScript em `docs/app.js`.
-- Estado mantido em variáveis de módulo.
-- Funções pequenas para buscar dados, renderizar estados e tratar eventos.
+- componentes em atomic design (`atoms`, `molecules`, `organisms`, `templates`);
+- páginas em `frontend/src/pages`;
+- serviços HTTP em `frontend/src/services`;
+- tipos compartilhados do frontend em `frontend/src/types`;
+- CSS global em `frontend/src/styles/main.css`;
+- build estático gerado em `docs/`.
 
 Ao alterar a interface:
 
 - preserve acessibilidade básica: `label`, `aria-live`, `aria-label`, foco em modais e mensagens compreensíveis;
-- escape qualquer valor dinâmico antes de inserir HTML com `innerHTML`;
+- evite `v-html` para conteúdo vindo de usuário ou API;
 - mantenha textos claros para pessoas não técnicas;
 - teste estados de erro, carregamento, lista vazia e resultado positivo/negativo;
-- evite introduzir build tools sem necessidade real.
+- rode `npm run typecheck`, `npm test` e `npm run build` antes de publicar mudanças no frontend.
 
 ## Cadastro de Empresas
 
@@ -140,15 +165,16 @@ Python:
 - imports absolutos a partir de `app`;
 - prefira biblioteca padrão quando ela resolver bem o problema.
 
-JavaScript:
+TypeScript/Vue:
 
-- variáveis e funções em `camelCase`;
+- arquivos de componentes em `PascalCase.vue`;
+- variáveis, funções, refs e computeds em `camelCase`;
+- tipos e interfaces em `PascalCase`;
+- serviços HTTP isolados em `frontend/src/services`;
+- tipos compartilhados em `frontend/src/types`;
 - constantes globais de configuração em `UPPER_SNAKE_CASE`;
-- seletores DOM nomeados pelo papel do elemento, como `brandSearch`, `resultBox`, `requestModal`;
-- handlers com prefixo `handle` quando respondem a eventos;
-- funções de renderização com prefixo `render`;
-- funções de abrir/fechar UI com prefixos `open` e `close`;
-- use `const` por padrão e `let` apenas quando o valor muda.
+- use `const` por padrão e `let` apenas quando o valor muda;
+- prefira props e emits tipados em componentes novos.
 
 HTML/CSS:
 
@@ -231,9 +257,10 @@ Checklist rápido:
 
 - A mudança mantém a separação de camadas?
 - Nomes internos estão em inglês?
-- Python segue `snake_case` e JavaScript segue `camelCase`?
+- Python segue `snake_case` e TypeScript segue `camelCase`/`PascalCase` conforme o tipo de símbolo?
 - Dados públicos e mensagens para usuários continuam claros em português?
 - Entradas externas continuam validadas e escapadas?
 - Testes foram adicionados ou atualizados quando a regra mudou?
+- O build estático em `docs/` foi atualizado quando o frontend mudou?
 - O frontend foi testado manualmente nos fluxos afetados?
 - Nenhuma configuração local foi commitada por acidente?
