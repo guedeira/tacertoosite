@@ -17,7 +17,7 @@ O resultado deve ser tratado como apoio à verificação, não como garantia de 
 
 - Comparação de domínios informados com domínios oficiais cadastrados.
 - Normalização de URLs para reduzir erros comuns de digitação e formato.
-- Frontend estático em HTML, CSS e JavaScript vanilla.
+- Frontend estático em Vue 3, Vite e TypeScript, com build publicado em `docs/`.
 - API HTTP em Python com FastAPI.
 - Formulário para solicitar a inclusão de novas empresas por issue no GitHub.
 
@@ -70,7 +70,20 @@ poetry install
 poetry run uvicorn app.main:app --reload
 ```
 
-Depois, abra `docs/index.html` no navegador. Para usar a API local, ajuste temporariamente `API_BASE_URL` em `docs/app.js` para `http://localhost:8000`.
+Em outro terminal, rode o frontend:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Para publicar o site estático em `docs/`:
+
+```bash
+cd frontend
+npm run build
+```
 
 ## Como Contribuir
 
@@ -84,7 +97,7 @@ Contribuições são bem-vindas, especialmente em:
 
 Antes de abrir um pull request:
 
-1. Rode os testes do backend.
+1. Rode os testes relevantes do backend e do frontend.
 2. Mantenha mudanças pequenas e focadas.
 3. Explique a motivação da alteração.
 4. Para novas empresas, inclua uma fonte confiável que comprove o domínio oficial.

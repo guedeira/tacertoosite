@@ -1,9 +1,12 @@
+.agents
 .codex
 .DS_Store
 Thumbs.db
 *.swp
 *.swo
 *~
+node_modules/
+npm-debug.log*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
