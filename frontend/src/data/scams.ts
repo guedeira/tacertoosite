@@ -1,0 +1,214 @@
+export type ScamCategory =
+  | "Login falso"
+  | "Pagamento"
+  | "Entrega e rastreamento"
+  | "Promoções e prêmios"
+  | "Suporte e atendimento"
+  | "Mesmo em sites oficiais, ainda tenha cuidado";
+
+export type ScamType = {
+  id: string;
+  name: string;
+  shortDescription: string;
+  modalDescription: string;
+  signs: string[];
+  action: string;
+  category: ScamCategory;
+};
+
+export const scamTypes: ScamType[] = [
+  {
+    id: "falso-atendimento",
+    name: "Falso atendimento",
+    category: "Login falso",
+    shortDescription: "Mensagem que imita uma empresa e leva para uma tela falsa de login.",
+    modalDescription:
+      "Nesse golpe, a mensagem parece vir de banco, loja, streaming, operadora ou rede social. O link leva para uma página parecida com a original para roubar senha e acesso da conta.",
+    signs: [
+      "Pedido de senha, token ou código SMS.",
+      "Mensagem dizendo que sua conta será bloqueada.",
+      "Pressa para resolver um problema.",
+      "Site diferente do oficial.",
+    ],
+    action:
+      "Não use o login aberto pelo link recebido. Feche a página, abra o aplicativo ou digite o endereço oficial no navegador e entre por lá. Se já informou senha ou código, troque a senha e revise os acessos da conta.",
+  },
+  {
+    id: "verificacao-conta-falsa",
+    name: "Verificação de conta falsa",
+    category: "Login falso",
+    shortDescription: "Aviso falso pedindo confirmação de identidade ou atualização de cadastro.",
+    modalDescription:
+      "O golpe informa que você precisa confirmar identidade, atualizar cadastro ou validar segurança. A página costuma copiar o visual da empresa para parecer legítima.",
+    signs: [
+      "Pedido urgente de confirmação.",
+      "Solicitação de documento, selfie ou cartão.",
+      "Link enviado por SMS, WhatsApp ou e-mail inesperado.",
+      "Domínio estranho ou diferente do original.",
+    ],
+    action:
+      "Faça qualquer confirmação dentro do aplicativo oficial ou área logada do site. Se a mensagem veio por SMS, WhatsApp ou e-mail inesperado, não envie documento, selfie ou cartão antes de confirmar no canal oficial.",
+  },
+  {
+    id: "boleto-pagamento",
+    name: "Boleto ou pagamento falso",
+    category: "Pagamento",
+    shortDescription: "Página falsa de cobrança ou segunda via criada para receber pagamento.",
+    modalDescription:
+      "Golpistas criam páginas falsas de cobrança, segunda via ou regularização para receber pagamentos indevidos.",
+    signs: ["PIX para pessoa desconhecida.", "Desconto exagerado.", "Cobrança inesperada.", "Site diferente do oficial."],
+    action:
+      "Antes de pagar, confira o domínio do site e os dados do recebedor. Se a cobrança não aparece no aplicativo, boleto ou área oficial da empresa, pare e fale com o atendimento oficial.",
+  },
+  {
+    id: "pagina-falsa-compra",
+    name: "Página falsa de compra",
+    category: "Pagamento",
+    shortDescription: "Loja falsa com aparência real, criada para receber sem entregar.",
+    modalDescription:
+      "A vítima acredita estar comprando em uma loja verdadeira, mas o site foi criado apenas para receber pagamentos.",
+    signs: ["Preço muito abaixo do normal.", "Apenas PIX como pagamento.", "Poucas informações da loja.", "Domínio estranho ou recém-criado."],
+    action:
+      "Pesquise o nome da loja fora do anúncio, confira CNPJ, canais de atendimento e reputação. Evite pagar por PIX quando o site não oferece informações claras sobre a empresa.",
+  },
+  {
+    id: "rastreamento-entrega",
+    name: "Rastreamento de entrega falso",
+    category: "Entrega e rastreamento",
+    shortDescription: "Mensagem sobre encomenda parada, tentativa de entrega ou taxa pendente.",
+    modalDescription:
+      "A mensagem fala sobre encomenda parada, tentativa de entrega ou taxa pendente.",
+    signs: ["Link enviado sem contexto.", "Pedido de pagamento para liberar entrega.", "Site diferente da transportadora.", "Mensagem urgente."],
+    action:
+      "Não pague taxa pelo link recebido. Abra o aplicativo oficial da loja ou transportadora e confira se há pedido, pendência ou tentativa de entrega registrada.",
+  },
+  {
+    id: "taxa-falsa-entrega",
+    name: "Taxa falsa dos Correios ou transportadora",
+    category: "Entrega e rastreamento",
+    shortDescription: "Cobrança falsa para liberar uma encomenda nacional ou internacional.",
+    modalDescription:
+      "O golpe informa cobrança para liberar uma encomenda internacional ou nacional.",
+    signs: [
+      "Taxa inesperada.",
+      "Link enviado por SMS ou WhatsApp.",
+      "Pressa para pagamento.",
+      "Página parecida, mas com endereço diferente do oficial.",
+    ],
+    action:
+      "Digite o endereço oficial da transportadora ou dos Correios no navegador. Use o código de rastreio dentro do canal oficial e desconfie se a cobrança só aparece no link recebido.",
+  },
+  {
+    id: "promocao-premio",
+    name: "Promoção ou prêmio falso",
+    category: "Promoções e prêmios",
+    shortDescription: "Cupom, brinde ou sorteio falso usado para fazer você clicar rapidamente.",
+    modalDescription:
+      "Golpistas usam cupons, brindes e sorteios para fazer você clicar rapidamente.",
+    signs: ["Oferta boa demais.", "Contagem regressiva.", "Pedido de login ou pagamento.", "Domínio estranho."],
+    action:
+      "Procure a promoção no site, aplicativo ou perfil verificado da empresa. Se o benefício depende de login, compartilhamento ou pagamento imediato, pare antes de continuar.",
+  },
+  {
+    id: "cashback-beneficio-falso",
+    name: "Cashback ou benefício falso",
+    category: "Promoções e prêmios",
+    shortDescription: "Mensagem dizendo que você ganhou cashback, pontos ou benefício financeiro.",
+    modalDescription:
+      "A vítima recebe mensagem dizendo que ganhou cashback, pontos ou benefício financeiro.",
+    signs: [
+      "Dinheiro liberado sem motivo.",
+      "Pedido de taxa para saque.",
+      "Link enviado fora do aplicativo oficial.",
+      "Página muito parecida com banco ou carteira digital.",
+    ],
+    action:
+      "Nunca pague taxa para receber cashback, pontos ou benefício. Abra o aplicativo oficial do banco, loja ou carteira digital e confira se o valor aparece na sua conta.",
+  },
+  {
+    id: "suporte-tecnico",
+    name: "Falso suporte técnico",
+    category: "Suporte e atendimento",
+    shortDescription: "Atendimento falso que pede acesso remoto, senha, código ou clique em link suspeito.",
+    modalDescription:
+      "Golpistas fingem ser suporte de banco, operadora, streaming ou rede social.",
+    signs: ["Pedido de acesso remoto.", "Solicitação de senha ou código.", "Atendimento urgente.", "Link suspeito enviado durante conversa."],
+    action:
+      "Não instale aplicativo, não compartilhe tela e não informe códigos durante o contato. Encerre a conversa e abra um atendimento novo pelo aplicativo ou site oficial.",
+  },
+  {
+    id: "central-falsa-recuperacao",
+    name: "Central falsa de recuperação",
+    category: "Suporte e atendimento",
+    shortDescription: "Promessa falsa de recuperar conta, dinheiro perdido ou acesso bloqueado.",
+    modalDescription:
+      "O golpe promete recuperar conta, dinheiro perdido ou acesso bloqueado.",
+    signs: ["Cobrança antecipada.", "Pedido de dados sensíveis.", "Pressão emocional.", "Site parecido com empresa oficial."],
+    action:
+      "Use apenas os processos de recuperação dentro do serviço oficial. Se envolver dinheiro, senha, código ou promessa de recuperação garantida, trate como risco e procure o suporte oficial.",
+  },
+  {
+    id: "conta-oficial-comprometida",
+    name: "Conta oficial comprometida",
+    category: "Mesmo em sites oficiais, ainda tenha cuidado",
+    shortDescription: "Uma conta verdadeira pode ser invadida e começar a divulgar links maliciosos.",
+    modalDescription:
+      "Às vezes uma conta verdadeira de empresa, influenciador ou loja pode ser invadida e começar a divulgar links maliciosos. Mesmo que a mensagem pareça legítima, confira o endereço do site antes de clicar.",
+    signs: [
+      "Mensagem muito diferente do padrão da conta.",
+      "Oferta, cobrança ou pedido urgente fora de contexto.",
+      "Link externo encurtado ou com domínio estranho.",
+      "Pedido de senha, pagamento ou dados pessoais.",
+    ],
+    action:
+      "Confirme a informação em outro canal oficial antes de clicar ou pagar. Se a mensagem veio de uma conta da empresa, entre em contato com o suporte oficial e pergunte se a campanha, cobrança ou link é verdadeiro.",
+  },
+  {
+    id: "fraudes-plataformas-legitimas",
+    name: "Fraudes em plataformas legítimas",
+    category: "Mesmo em sites oficiais, ainda tenha cuidado",
+    shortDescription: "Alguns golpes acontecem dentro de aplicativos e marketplaces verdadeiros.",
+    modalDescription:
+      "Nem todo golpe usa site falso. Algumas fraudes acontecem dentro de aplicativos e marketplaces verdadeiros.",
+    signs: [
+      "Pagamento fora da plataforma.",
+      "Conversa em outro aplicativo.",
+      "Transferência direta.",
+      "PIX para terceiros.",
+    ],
+    action:
+      "Mantenha conversa e pagamento dentro da plataforma. Se alguém insistir para sair do app, pagar por fora ou enviar PIX para terceiros, acione o suporte oficial da plataforma antes de continuar.",
+  },
+  {
+    id: "anuncio-patrocinado-falso",
+    name: "Anúncio falso em plataforma conhecida",
+    category: "Mesmo em sites oficiais, ainda tenha cuidado",
+    shortDescription: "Um anúncio dentro de busca, rede social ou marketplace pode levar para uma página falsa.",
+    modalDescription:
+      "Golpistas também usam anúncios pagos ou publicações impulsionadas em plataformas conhecidas. A plataforma pode ser real, mas o link do anúncio pode levar para uma página falsa.",
+    signs: [
+      "Anúncio prometendo preço, benefício ou saque muito acima do normal.",
+      "Link que sai da plataforma e abre um domínio estranho.",
+      "Página pedindo login, pagamento ou dados pessoais logo no começo.",
+      "Nome da empresa escrito de forma parecida, mas não igual.",
+    ],
+    action:
+      "Antes de confiar no anúncio, confira se o endereço aberto pertence ao site oficial da empresa. Se ainda houver dúvida, procure o suporte ou canal oficial da marca sem usar o link do anúncio.",
+  },
+  {
+    id: "pagina-esquecida-site-oficial",
+    name: "Página esquecida de site oficial",
+    category: "Mesmo em sites oficiais, ainda tenha cuidado",
+    shortDescription: "Parte abandonada ou mal configurada de um site real pode ser usada por criminosos.",
+    modalDescription:
+      "Em alguns casos, criminosos conseguem assumir partes abandonadas ou mal configuradas de sites legítimos. Isso pode fazer com que um link aparentemente confiável, ligado a uma empresa real, seja usado para golpes.",
+    signs: [
+      "Pedido de senha ou pagamento urgente.",
+      "Página com aparência diferente do site principal.",
+      "Link recebido por desconhecidos.",
+      "Informações que não aparecem no aplicativo principal da empresa.",
+    ],
+    action:
+      "Mesmo em páginas que parecem oficiais, confirme informações no aplicativo principal da empresa antes de seguir. Se a página pedir senha, pagamento ou dados sensíveis, entre em contato com o suporte oficial e relate o link.",
+  },
+];

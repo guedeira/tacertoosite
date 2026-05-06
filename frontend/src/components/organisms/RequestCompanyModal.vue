@@ -85,6 +85,8 @@ function showMessage(value: string, tone: "success" | "error"): void {
         label="Nome da empresa"
         placeholder="Ex.: Empresa XPTO"
         autocomplete="organization"
+        show-required-marker
+        validate-required-on-blur
         required
       />
       <BaseField
@@ -92,6 +94,8 @@ function showMessage(value: string, tone: "success" | "error"): void {
         v-model="domain"
         label="Domínio oficial"
         placeholder="Ex.: empresaxpto.com.br"
+        show-required-marker
+        validate-required-on-blur
         required
       />
       <BaseField
@@ -116,9 +120,8 @@ function showMessage(value: string, tone: "success" | "error"): void {
         <p class="field__hint">Opcional, até 500 caracteres. {{ descriptionCount }}/500</p>
       </div>
 
-      <BaseButton type="submit" variant="secondary">Enviar pedido</BaseButton>
+      <BaseButton type="submit">Enviar pedido</BaseButton>
       <StatusMessage v-if="message" :tone="messageTone" :message="message" />
     </form>
   </AppModal>
 </template>
-

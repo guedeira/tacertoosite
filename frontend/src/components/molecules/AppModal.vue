@@ -37,14 +37,25 @@ watch(
 );
 
 function handleBackdropClick(event: MouseEvent): void {
-  if (event.target === dialog.value) {
+  if (!dialog.value || event.target !== dialog.value) {
+    return;
+  }
+
+  const rect = dialog.value.getBoundingClientRect();
+  const clickedOutsideDialog =
+    event.clientX < rect.left ||
+    event.clientX > rect.right ||
+    event.clientY < rect.top ||
+    event.clientY > rect.bottom;
+
+  if (clickedOutsideDialog) {
     emit("close");
   }
 }
 </script>
 
 <template>
-  <dialog ref="dialog" class="modal" @click="handleBackdropClick" @close="emit('close')">
+  <dialog ref="dialog" class="modal" @click="handleBackdropClick" @cancel.prevent @close="emit('close')">
     <div class="modal__header">
       <div>
         <h2>{{ title }}</h2>
@@ -55,4 +66,3 @@ function handleBackdropClick(event: MouseEvent): void {
     <slot />
   </dialog>
 </template>
-
