@@ -54,14 +54,13 @@ async function initialize(): Promise<void> {
 }
 
 async function waitForBackend(): Promise<boolean> {
-  for (let attempt = 1; attempt <= 8; attempt += 1) {
+  for (let attemptsLeft = 8; attemptsLeft > 0; attemptsLeft -= 1) {
     const isReady = await checkHealth();
 
     if (isReady) {
       return true;
     }
 
-    statusMessage.value = `Conectando com o servidor. Tentativa ${attempt} de 8...`;
     await new Promise((resolve) => window.setTimeout(resolve, 2500));
   }
 
