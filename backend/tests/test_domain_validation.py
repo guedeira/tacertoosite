@@ -13,6 +13,12 @@ class DomainValidationServiceTest(unittest.TestCase):
         self.assertTrue(result.is_match)
         self.assertEqual(result.submitted_domain, "mercadolivre.com.br")
 
+    def test_matches_official_domain_from_subdomain(self) -> None:
+        result = self.service.validate("steam", "https://store.steampowered.com/app/730")
+
+        self.assertTrue(result.is_match)
+        self.assertEqual(result.submitted_domain, "steampowered.com")
+
     def test_rejects_similar_but_incorrect_domain(self) -> None:
         result = self.service.validate("mercado_livre", "https://mercadoIivre.com.br/promocao")
 

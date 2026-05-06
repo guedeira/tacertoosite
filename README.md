@@ -27,7 +27,7 @@ O resultado deve ser tratado como apoio à verificação, não como garantia de 
 - O sistema não consulta reputação, certificado, DNS, blacklist ou bases externas.
 - Um resultado positivo não garante que uma página seja segura.
 - Um resultado negativo indica apenas que o domínio não corresponde ao cadastro atual.
-- Subdomínios não são tratados como equivalentes ao domínio oficial nesta versão.
+- A comparação considera o domínio registrável principal, então subdomínios como `store.steampowered.com` são comparados como `steampowered.com`.
 
 ## Roadmap
 
@@ -61,29 +61,6 @@ O resultado deve ser tratado como apoio à verificação, não como garantia de 
 ## Como Rodar
 
 As instruções completas de instalação, execução local, deploy e convenções estão em [DEVELOPMENT.md](./DEVELOPMENT.md).
-
-Resumo rápido:
-
-```bash
-cd backend
-poetry install
-poetry run uvicorn app.main:app --reload
-```
-
-Em outro terminal, rode o frontend:
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Para publicar o site estático em `docs/`:
-
-```bash
-cd frontend
-npm run build
-```
 
 ## Como Contribuir
 

@@ -17,6 +17,21 @@ class DomainNormalizerServiceTest(unittest.TestCase):
 
         self.assertEqual(result, "nubank.com.br")
 
+    def test_normalizes_subdomain_to_registrable_domain(self) -> None:
+        result = self.normalizer.normalize("https://store.steampowered.com/app/730")
+
+        self.assertEqual(result, "steampowered.com")
+
+    def test_keeps_compound_public_suffix_registrable_domain(self) -> None:
+        result = self.normalizer.normalize("https://login.mercadolivre.com.br/ofertas")
+
+        self.assertEqual(result, "mercadolivre.com.br")
+
+    def test_normalizes_www_public_suffix_domain(self) -> None:
+        result = self.normalizer.normalize("https://www.gov.br/servicos")
+
+        self.assertEqual(result, "gov.br")
+
     def test_empty_input_returns_empty_domain(self) -> None:
         result = self.normalizer.normalize("")
 

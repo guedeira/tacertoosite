@@ -10,7 +10,8 @@ from app.routes.validation_routes import router as validation_router
 
 CORS_ALLOWED_ORIGINS = [
     # Origem publica do GitHub Pages.
-    "https://guedeira.github.io",
+    "https://tacertoosite.guedeira.dev/",
+    # "https://guedeira.github.io",
     # Origens úteis para testar o frontend em servidor local.
     # "http://localhost:5500",
     # "http://127.0.0.1:5500",
