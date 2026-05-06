@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 from pydantic import ValidationError
 
-from app.main import create_app
+from app.main import CORS_ALLOWED_ORIGINS, create_app
 from app.routes.validation_routes import DomainValidationRequest
 
 
@@ -15,6 +15,10 @@ class SecurityConfigTest(unittest.TestCase):
         self.assertIsNone(app.docs_url)
         self.assertIsNone(app.redoc_url)
         self.assertIsNone(app.openapi_url)
+
+    def test_allows_public_frontend_origin_without_trailing_slash(self) -> None:
+        self.assertIn("https://tacertoosite.guedeira.dev", CORS_ALLOWED_ORIGINS)
+        self.assertNotIn("https://tacertoosite.guedeira.dev/", CORS_ALLOWED_ORIGINS)
 
     def test_rejects_brand_id_with_unexpected_characters(self) -> None:
         with self.assertRaises(ValidationError):
