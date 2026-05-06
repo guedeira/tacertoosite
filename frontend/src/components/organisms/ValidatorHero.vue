@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowRight, Building2, SearchCheck } from "lucide-vue-next";
+import { ArrowRight, Building2, ClipboardCheck, Link2, SearchCheck } from "lucide-vue-next";
 import { onMounted, ref } from "vue";
 
 import { checkHealth, getBrands, validateDomain } from "../../services/api";
@@ -54,14 +54,13 @@ async function initialize(): Promise<void> {
 }
 
 async function waitForBackend(): Promise<boolean> {
-  for (let attempt = 1; attempt <= 8; attempt += 1) {
+  for (let attemptsLeft = 8; attemptsLeft > 0; attemptsLeft -= 1) {
     const isReady = await checkHealth();
 
     if (isReady) {
       return true;
     }
 
-    statusMessage.value = `Conectando com o servidor. Tentativa ${attempt} de 8...`;
     await new Promise((resolve) => window.setTimeout(resolve, 2500));
   }
 
@@ -111,15 +110,30 @@ function selectBrand(brand: Brand): void {
   <section class="hero" aria-labelledby="page-title">
     <div class="hero__context">
       <AppLogo />
-      <p class="hero__eyebrow">Apoio simples para conferir links</p>
-      <h1 id="page-title">Compare o link recebido com o endereço oficial cadastrado.</h1>
+      <p class="hero__eyebrow">Uma pausa rápida antes do clique</p>
+      <h1 id="page-title">Confira se o link combina com o site oficial.</h1>
       <p class="hero__intro">
-        Escolha a empresa, cole o link e veja se o domínio principal bate com a base cadastrada.
-        O resultado ajuda na checagem, mas não substitui cuidado antes de informar dados ou fazer pagamentos.
+        Escolha a empresa, cole o endereço recebido e veja se o domínio principal bate com a base cadastrada.
+        É uma forma simples de perceber links suspeitos antes de informar dados, senhas ou fazer pagamentos.
       </p>
       <div class="hero__facts" aria-label="Resumo da ferramenta">
         <span><Building2 aria-hidden="true" /> Empresas cadastradas</span>
-        <span><SearchCheck aria-hidden="true" /> Comparação objetiva de domínio</span>
+        <span><SearchCheck aria-hidden="true" /> Domínios validados</span>
+      </div>
+      <div class="hero__future-tools" aria-label="Ferramentas futuras">
+        <h2>Outras ferramentas estão a caminho</h2>
+        <div class="hero__future-actions">
+          <button type="button" aria-disabled="true" aria-label="Checklist antigolpe em desenvolvimento">
+            <ClipboardCheck aria-hidden="true" />
+            Checklist antigolpe
+            <span role="tooltip">Em desenvolvimento</span>
+          </button>
+          <button type="button" aria-disabled="true" aria-label="Resolvedor de short links em desenvolvimento">
+            <Link2 aria-hidden="true" />
+            Resolver short link
+            <span role="tooltip">Em desenvolvimento</span>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -127,7 +141,7 @@ function selectBrand(brand: Brand): void {
       <div class="tool-card">
         <div class="tool-card__header">
           <h2>Conferir um link</h2>
-          <p>Cole o endereço completo, inclusive quando ele vier com caminho, promoção ou parâmetros.</p>
+          <p>Cole o endereço completo, inclusive quando ele vier cheio de números, caminhos ou parâmetros.</p>
         </div>
 
         <StatusMessage v-if="statusMessage" :tone="statusTone" :message="statusMessage" :busy="statusTone === 'info' && !isBackendReady" />

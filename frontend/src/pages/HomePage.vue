@@ -1,42 +1,109 @@
 <script setup lang="ts">
-import EducationPanel from "../components/organisms/EducationPanel.vue";
+import { computed, ref } from "vue";
+
+import AppModal from "../components/molecules/AppModal.vue";
 import ValidatorHero from "../components/organisms/ValidatorHero.vue";
 import SiteFooter from "../components/templates/SiteFooter.vue";
+import { scamTypes } from "../data/scams";
+
+const selectedScamId = ref<string | null>(null);
+const selectedScam = computed(() => scamTypes.find((scamType) => scamType.id === selectedScamId.value) || null);
+
+function openScamModal(scamId: string): void {
+  selectedScamId.value = scamId;
+}
+
+function closeScamModal(): void {
+  selectedScamId.value = null;
+}
 </script>
 
 <template>
   <main>
     <ValidatorHero />
-    <section class="info-section" aria-labelledby="details-title">
+    <section class="info-section" aria-label="Informações de apoio sobre links suspeitos">
       <div class="info-section__content">
-        <EducationPanel />
-
         <div class="insight-grid">
-          <article class="insight">
-            <h2 id="details-title">O que a ferramenta compara?</h2>
+          <aside class="education-panel" aria-labelledby="education-title">
+            <h2 id="education-title">Sempre desconfie</h2>
             <p>
-              Ela separa o domínio principal do link informado e compara com os domínios oficiais cadastrados para a empresa escolhida.
+              Golpistas usam nomes conhecidos para criar urgência e fazer páginas falsas parecerem oficiais.
             </p>
-            <p class="example-text">Ex.: em https://www.gov.br/servicos, o domínio comparado é gov.br.</p>
+            <ul class="education-panel__tips">
+              <li>Desconfie de bloqueio, multa, prêmio ou taxa urgente.</li>
+              <li>Confira o domínio antes de digitar dados.</li>
+              <li>Na dúvida, abra o app ou site oficial.</li>
+            </ul>
+          </aside>
+
+          <article class="insight">
+            <h2>O que a ferramenta compara?</h2>
+            <p>
+              Ela separa o domínio principal do link e compara com a base oficial da empresa escolhida.
+            </p>
+            <div class="domain-example" aria-label="Exemplo de comparação de domínio">
+              <p><strong>Exemplo com Mercado Livre</strong></p>
+              <p><span>Domínio oficial:</span> mercadolivre.com.br</p>
+              <p><span>Domínio suspeito:</span> mercadolivre-ofertas.com</p>
+            </div>
+            <p>Como os domínios são diferentes, esse link não é o site oficial cadastrado para a empresa.</p>
           </article>
 
           <article class="insight">
             <h2>Quando o resultado não bater</h2>
             <p>
-              Pare antes de clicar, pagar ou informar dados. Confira o endereço por outro canal oficial da empresa ou instituição.
+              Trate o link como suspeito. Não é prova de golpe, mas é um sinal para parar antes de continuar.
             </p>
+            <ul class="insight-list">
+              <li>Não informe senha, código, cartão ou documento.</li>
+              <li>Não pague boleto, PIX ou taxa aberta pelo link.</li>
+              <li>Procure a empresa por um canal oficial.</li>
+            </ul>
           </article>
 
-          <article class="insight insight--wide">
-            <h2>Limite importante</h2>
+          <article class="insight insight--wide scam-types" aria-labelledby="scam-types-title">
+            <h2 id="scam-types-title">Golpes comuns utilizando links falsos ou comprometidos</h2>
             <p>
-              Um endereço bater com o cadastro não garante que toda página é segura. A comparação é uma etapa de apoio para reduzir erro e pressa.
+              Muitos golpes usam o nome de uma empresa real, mas mandam você para outro endereço. Conheça alguns casos em que comparar o domínio ajuda a evitar cilada.
             </p>
+            <div class="scam-types__list">
+              <button
+                v-for="scamType in scamTypes.slice(0, 4)"
+                :key="scamType.id"
+                class="scam-type-button"
+                type="button"
+                @click="openScamModal(scamType.id)"
+              >
+                <strong>{{ scamType.name }}</strong>
+                <span>{{ scamType.shortDescription }}</span>
+              </button>
+            </div>
+            <a class="scam-types__more" href="./golpes/">Saiba mais sobre golpes comuns</a>
           </article>
         </div>
       </div>
     </section>
   </main>
   <SiteFooter />
-</template>
 
+  <AppModal
+    v-if="selectedScam"
+    :open="Boolean(selectedScam)"
+    :title="selectedScam.name"
+    :description="selectedScam.modalDescription"
+    @close="closeScamModal"
+  >
+    <div class="scam-modal">
+      <section>
+        <h3>Sinais comuns</h3>
+        <ul>
+          <li v-for="sign in selectedScam.signs" :key="sign">{{ sign }}</li>
+        </ul>
+      </section>
+      <section>
+        <h3>O que fazer</h3>
+        <p>{{ selectedScam.action }}</p>
+      </section>
+    </div>
+  </AppModal>
+</template>
