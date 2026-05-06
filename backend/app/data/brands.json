@@ -57,7 +57,7 @@
     {
       "id": "aliexpress",
       "name": "AliExpress",
-      "official_domains": ["aliexpress.com", "pt.aliexpress.com"]
+      "official_domains": ["aliexpress.com"]
     },
     {
       "id": "ebay",
@@ -87,7 +87,7 @@
     {
       "id": "shein",
       "name": "SHEIN",
-      "official_domains": ["shein.com", "br.shein.com"]
+      "official_domains": ["shein.com"]
     },
     {
       "id": "shopee",
