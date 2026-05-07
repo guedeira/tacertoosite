@@ -9,7 +9,7 @@ describe("ValidationResultCard", () => {
       props: {
         result: {
           is_match: true,
-          brand: "Google",
+          company: "Google",
           official_domains: ["google.com"],
           submitted_domain: "google.com",
           message: "Domínio encontrado.",
@@ -26,7 +26,7 @@ describe("ValidationResultCard", () => {
       props: {
         result: {
           is_match: false,
-          brand: "Google",
+          company: "Google",
           official_domains: ["google.com", "gmail.com"],
           submitted_domain: "g00gle.com",
           message: "Domínio não encontrado.",
@@ -39,4 +39,3 @@ describe("ValidationResultCard", () => {
     expect(wrapper.text()).toContain("gmail.com");
   });
 });
-

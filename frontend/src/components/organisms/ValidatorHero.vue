@@ -2,27 +2,27 @@
 import { ArrowRight, Building2, ClipboardCheck, Link2, SearchCheck } from "lucide-vue-next";
 import { onMounted, ref } from "vue";
 
-import { checkHealth, getBrands, validateDomain } from "../../services/api";
-import type { Brand, ValidationResult } from "../../types/api";
+import { checkHealth, getCompanies, validateDomain } from "../../services/api";
+import type { Company, ValidationResult } from "../../types/api";
 import AppLogo from "../atoms/AppLogo.vue";
 import BaseButton from "../atoms/BaseButton.vue";
 import BaseField from "../atoms/BaseField.vue";
 import StatusMessage from "../atoms/StatusMessage.vue";
-import BrandAutocomplete from "../molecules/BrandAutocomplete.vue";
-import BrandListModal from "./BrandListModal.vue";
+import CompanyAutocomplete from "../molecules/CompanyAutocomplete.vue";
+import CompanyListModal from "./CompanyListModal.vue";
 import RequestCompanyModal from "./RequestCompanyModal.vue";
 import ValidationResultModal from "./ValidationResultModal.vue";
 
-const brands = ref<Brand[]>([]);
-const brandSearch = ref("");
-const selectedBrandId = ref("");
+const companies = ref<Company[]>([]);
+const companySearch = ref("");
+const selectedCompanyId = ref("");
 const domainInput = ref("");
 const result = ref<ValidationResult | null>(null);
 const statusMessage = ref("Conectando com o servidor. Isso pode levar alguns segundos na primeira visita.");
 const statusTone = ref<"info" | "error">("info");
 const isBackendReady = ref(false);
 const isLoading = ref(false);
-const isBrandsModalOpen = ref(false);
+const isCompaniesModalOpen = ref(false);
 const isRequestModalOpen = ref(false);
 const isResultModalOpen = ref(false);
 
@@ -44,7 +44,7 @@ async function initialize(): Promise<void> {
   }
 
   try {
-    brands.value = await getBrands();
+    companies.value = await getCompanies();
     isBackendReady.value = true;
     statusMessage.value = "";
   } catch {
@@ -70,7 +70,7 @@ async function waitForBackend(): Promise<boolean> {
 async function submitValidation(): Promise<void> {
   result.value = null;
 
-  if (!selectedBrandId.value) {
+  if (!selectedCompanyId.value) {
     statusTone.value = "error";
     statusMessage.value = "Selecione uma empresa da lista.";
     return;
@@ -87,7 +87,7 @@ async function submitValidation(): Promise<void> {
 
   try {
     result.value = await validateDomain({
-      brand_id: selectedBrandId.value,
+      company_id: selectedCompanyId.value,
       input: domainInput.value,
     });
     isResultModalOpen.value = true;
@@ -99,10 +99,10 @@ async function submitValidation(): Promise<void> {
   }
 }
 
-function selectBrand(brand: Brand): void {
-  brandSearch.value = brand.name;
-  selectedBrandId.value = brand.id;
-  isBrandsModalOpen.value = false;
+function selectCompany(company: Company): void {
+  companySearch.value = company.name;
+  selectedCompanyId.value = company.id;
+  isCompaniesModalOpen.value = false;
 }
 </script>
 
@@ -110,11 +110,12 @@ function selectBrand(brand: Brand): void {
   <section class="hero" aria-labelledby="page-title">
     <div class="hero__context">
       <AppLogo />
-      <p class="hero__eyebrow">Uma pausa rápida antes do clique</p>
-      <h1 id="page-title">Confira se o link combina com o site oficial.</h1>
+      <p class="hero__eyebrow">Nem tudo é o que parece</p>
+      <h1 id="page-title">O site parece verdadeiro. O link talvez não seja.</h1>
       <p class="hero__intro">
-        Escolha a empresa, cole o endereço recebido e veja se o domínio principal bate com a base cadastrada.
-        É uma forma simples de perceber links suspeitos antes de informar dados, senhas ou fazer pagamentos.
+        Cole o endereço recebido e compare com o domínio oficial da empresa.
+        Uma forma simples de identificar páginas falsas antes de informar dados, senhas ou realizar pagamentos.
+        Evite golpes, fique tranquilo 😎
       </p>
       <div class="hero__facts" aria-label="Resumo da ferramenta">
         <span><Building2 aria-hidden="true" /> Empresas cadastradas</span>
@@ -122,16 +123,19 @@ function selectBrand(brand: Brand): void {
       </div>
       <div class="hero__future-tools" aria-label="Ferramentas futuras">
         <h2>Outras ferramentas estão a caminho</h2>
+        <p>
+          Pequenas verificações podem evitar grandes problemas. Aqui você encontra ferramentas pensadas para validar links e reduzir riscos online.
+        </p>
         <div class="hero__future-actions">
           <button type="button" aria-disabled="true" aria-label="Checklist antigolpe em desenvolvimento">
             <ClipboardCheck aria-hidden="true" />
             Checklist antigolpe
-            <span role="tooltip">Em desenvolvimento</span>
+            <span role="tooltip">Em roadmap</span>
           </button>
           <button type="button" aria-disabled="true" aria-label="Resolvedor de short links em desenvolvimento">
             <Link2 aria-hidden="true" />
             Resolver short link
-            <span role="tooltip">Em desenvolvimento</span>
+            <span role="tooltip">Em roadmap</span>
           </button>
         </div>
       </div>
@@ -147,13 +151,13 @@ function selectBrand(brand: Brand): void {
         <StatusMessage v-if="statusMessage" :tone="statusTone" :message="statusMessage" :busy="statusTone === 'info' && !isBackendReady" />
 
         <form class="validator-form" @submit.prevent="submitValidation">
-          <BrandAutocomplete
-            v-model="brandSearch"
-            v-model:selected-brand-id="selectedBrandId"
-            :brands="brands"
+          <CompanyAutocomplete
+            v-model="companySearch"
+            v-model:selected-company-id="selectedCompanyId"
+            :companies="companies"
             :disabled="!isBackendReady"
-            @request-brand="isRequestModalOpen = true"
-            @open-brands="isBrandsModalOpen = true"
+            @request-company="isRequestModalOpen = true"
+            @open-companies="isCompaniesModalOpen = true"
           />
 
           <BaseField
@@ -175,11 +179,11 @@ function selectBrand(brand: Brand): void {
     </div>
   </section>
 
-  <BrandListModal
-    :open="isBrandsModalOpen"
-    :brands="brands"
-    @close="isBrandsModalOpen = false"
-    @select="selectBrand"
+  <CompanyListModal
+    :open="isCompaniesModalOpen"
+    :companies="companies"
+    @close="isCompaniesModalOpen = false"
+    @select="selectCompany"
   />
   <ValidationResultModal
     :open="isResultModalOpen"
@@ -188,7 +192,7 @@ function selectBrand(brand: Brand): void {
   />
   <RequestCompanyModal
     :open="isRequestModalOpen"
-    :suggested-name="brandSearch"
+    :suggested-name="companySearch"
     @close="isRequestModalOpen = false"
   />
 </template>

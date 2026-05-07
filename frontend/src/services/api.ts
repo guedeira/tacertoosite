@@ -1,6 +1,6 @@
-import type { Brand, DomainValidationPayload, ValidationResult } from "../types/api";
+import type { Company, DomainValidationPayload, ValidationResult } from "../types/api";
 
-const PRODUCTION_API_BASE_URL = "https://tacertoosite.onrender.com";
+const PRODUCTION_API_BASE_URL = "https://api-tacertoosite.guedeira.dev";
 const API_BASE_URL = import.meta.env.DEV
   ? "/api"
   : import.meta.env.VITE_API_BASE_URL || PRODUCTION_API_BASE_URL;
@@ -28,14 +28,14 @@ export async function checkHealth(): Promise<boolean> {
   }
 }
 
-export async function getBrands(): Promise<Brand[]> {
-  const response = await fetchWithTimeout("/brands");
+export async function getCompanies(): Promise<Company[]> {
+  const response = await fetchWithTimeout("/companies");
 
   if (!response.ok) {
     throw new Error("Não foi possível carregar as empresas.");
   }
 
-  return response.json() as Promise<Brand[]>;
+  return response.json() as Promise<Company[]>;
 }
 
 export async function validateDomain(payload: DomainValidationPayload): Promise<ValidationResult> {

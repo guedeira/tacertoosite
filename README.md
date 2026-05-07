@@ -23,7 +23,7 @@ O resultado deve ser tratado como apoio à verificação, não como garantia de 
 
 ## Limitações
 
-- Os domínios oficiais são cadastrados manualmente em `backend/app/data/brands.json`.
+- Os domínios oficiais são lidos da tabela `public.companies` no Supabase.
 - O sistema não consulta reputação, certificado, DNS, blacklist ou bases externas.
 - Um resultado positivo não garante que uma página seja segura.
 - Um resultado negativo indica apenas que o domínio não corresponde ao cadastro atual.
@@ -41,7 +41,7 @@ O resultado deve ser tratado como apoio à verificação, não como garantia de 
   - alphaMountain;
   - Shodan;
   - Web of Trust.
-- Implementar banco de dados para armazenar empresas cadastradas, resultados de integrações e histórico de análises.
+- Expandir o banco para armazenar resultados de integrações e histórico de análises.
 - Criar painel de reputação global e por empresa.
 - Criar um checklist antigolpe para ajudar pessoas não técnicas a avaliar sinais de risco:
   - domínio conferido no Tá certo o site?;
@@ -56,7 +56,7 @@ O resultado deve ser tratado como apoio à verificação, não como garantia de 
   - como verificar um link antes de clicar.
 - Criar um score de reputação interno, cruzando sinais como volume de consultas e histórico de análises.
 - Melhorar a experiência do frontend.
-- Padronizar nomes internos (vars) do frontend e backend de `brand` para `company`, acompanhando a linguagem exibida ao usuário.
+- Manter a nomenclatura interna em torno de `company`/`companies`, acompanhando a tabela `public.companies`.
 
 ## Como Rodar
 

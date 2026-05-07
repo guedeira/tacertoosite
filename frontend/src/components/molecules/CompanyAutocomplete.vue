@@ -1,37 +1,37 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from "vue";
 
-import type { Brand } from "../../types/api";
-import { filterBrands, normalizeText } from "../../utils/text";
+import type { Company } from "../../types/api";
+import { filterCompanies, normalizeText } from "../../utils/text";
 
 const props = defineProps<{
-  brands: Brand[];
+  companies: Company[];
   modelValue: string;
-  selectedBrandId: string;
+  selectedCompanyId: string;
   disabled?: boolean;
 }>();
 
 const emit = defineEmits<{
   "update:modelValue": [value: string];
-  "update:selectedBrandId": [value: string];
-  requestBrand: [];
-  openBrands: [];
+  "update:selectedCompanyId": [value: string];
+  requestCompany: [];
+  openCompanies: [];
 }>();
 
 const isOpen = ref(false);
 const isSelectingOption = ref(false);
 
-const matches = computed(() => filterBrands(props.brands, props.modelValue));
+const matches = computed(() => filterCompanies(props.companies, props.modelValue));
 const hasTerm = computed(() => props.modelValue.trim().length > 0);
 const notFound = computed(() => hasTerm.value && matches.value.length === 0);
 const exactMatch = computed(() =>
-  props.brands.find((brand) => normalizeText(brand.name) === normalizeText(props.modelValue)),
+  props.companies.find((company) => normalizeText(company.name) === normalizeText(props.modelValue)),
 );
 
 watch(
   () => props.modelValue,
   () => {
-    emit("update:selectedBrandId", exactMatch.value?.id || "");
+    emit("update:selectedCompanyId", exactMatch.value?.id || "");
 
     if (isSelectingOption.value || exactMatch.value) {
       isOpen.value = false;
@@ -42,10 +42,10 @@ watch(
   },
 );
 
-function selectBrand(brand: Brand): void {
+function selectCompany(company: Company): void {
   isSelectingOption.value = true;
-  emit("update:modelValue", brand.name);
-  emit("update:selectedBrandId", brand.id);
+  emit("update:modelValue", company.name);
+  emit("update:selectedCompanyId", company.id);
   isOpen.value = false;
 
   void nextTick(() => {
@@ -69,45 +69,45 @@ function closeWhenFocusLeaves(event: FocusEvent): void {
 </script>
 
 <template>
-  <div class="brand-autocomplete" @focusout="closeWhenFocusLeaves">
-    <label class="field__label" for="brand-search">Empresa</label>
+  <div class="company-autocomplete" @focusout="closeWhenFocusLeaves">
+    <label class="field__label" for="company-search">Empresa</label>
     <input
-      id="brand-search"
+      id="company-search"
       class="field__control"
       :value="modelValue"
       placeholder="Digite o nome da empresa"
       autocomplete="off"
       required
       :disabled="disabled"
-      aria-describedby="brand-search-hint"
-      aria-controls="brand-options"
+      aria-describedby="company-search-hint"
+      aria-controls="company-options"
       :aria-expanded="isOpen"
       role="combobox"
       @focus="isOpen = !exactMatch && matches.length > 0"
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     >
 
-    <div v-if="isOpen" id="brand-options" class="brand-autocomplete__options" role="listbox">
+    <div v-if="isOpen" id="company-options" class="company-autocomplete__options" role="listbox">
       <button
-        v-for="brand in matches"
-        :key="brand.id"
+        v-for="company in matches"
+        :key="company.id"
         type="button"
         role="option"
-        class="brand-autocomplete__option"
+        class="company-autocomplete__option"
         @mousedown.prevent
-        @click="selectBrand(brand)"
+        @click="selectCompany(company)"
       >
-        {{ brand.name }}
+        {{ company.name }}
       </button>
     </div>
 
-    <p id="brand-search-hint" class="field__hint">
+    <p id="company-search-hint" class="field__hint">
       Comece a digitar e selecione uma empresa da lista.
-      <button class="inline-link" type="button" @click="$emit('openBrands')">Ver empresas disponíveis</button>.
+      <button class="inline-link" type="button" @click="$emit('openCompanies')">Ver empresas disponíveis</button>.
     </p>
     <p v-if="notFound" class="field__hint field__hint--alert">
       Não encontrou a empresa?
-      <button class="inline-link" type="button" @click="$emit('requestBrand')">Peça a inclusão</button>.
+      <button class="inline-link" type="button" @click="$emit('requestCompany')">Peça a inclusão</button>.
     </p>
   </div>
 </template>

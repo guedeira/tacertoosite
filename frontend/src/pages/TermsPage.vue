@@ -6,7 +6,7 @@ import AppLogo from "../components/atoms/AppLogo.vue";
   <main class="policy-shell">
     <article class="policy-page" aria-labelledby="policy-title">
       <div class="policy-page__topbar">
-        <AppLogo class="policy-page__brand" href="../index.html" label="Voltar para a página inicial" />
+        <AppLogo class="policy-page__company" href="../index.html" label="Voltar para a página inicial" />
         <a class="back-link" href="../index.html">Voltar para a página principal</a>
       </div>
 

@@ -16,7 +16,7 @@ function getGroupId(category: string): string {
   <main class="scams-page-shell">
     <section class="scams-page" aria-labelledby="scams-page-title">
       <div class="scams-page__topbar">
-        <AppLogo class="policy-page__brand" href="../index.html" label="Voltar para a página inicial" />
+        <AppLogo class="policy-page__company" href="../index.html" label="Voltar para a página inicial" />
         <a class="back-link" href="../index.html">Voltar para conferir um link</a>
       </div>
 
