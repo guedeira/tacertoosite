@@ -5,6 +5,8 @@ description = "API para validar se dominios informados correspondem a dominios o
 requires-python = ">=3.12"
 dependencies = [
     "fastapi==0.115.6",
+    "psycopg[binary]>=3.2,<4.0",
+    "sqlalchemy>=2.0,<3.0",
     "uvicorn[standard]==0.34.0",
     "tldextract>=5.3.1,<6.0.0",
 ]

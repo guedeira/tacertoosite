@@ -1,14 +1,14 @@
 from fastapi import APIRouter
 from pydantic import BaseModel, Field
 
-from app.controllers.validation_controller import ValidationController
+from app.services.domain_validation_service import DomainValidationService
 
 router = APIRouter()
-controller = ValidationController()
+service = DomainValidationService()
 
 
 class DomainValidationRequest(BaseModel):
-    brand_id: str | None = Field(
+    company_id: str | None = Field(
         default=None,
         max_length=80,
         pattern=r"^[a-z0-9_]+$",
@@ -18,4 +18,4 @@ class DomainValidationRequest(BaseModel):
 
 @router.post("/validate-domain")
 def validate_domain(payload: DomainValidationRequest) -> dict:
-    return controller.validate_domain(payload.brand_id, payload.input)
+    return service.validate(payload.company_id, payload.input).to_dict()

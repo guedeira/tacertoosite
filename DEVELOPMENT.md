@@ -8,7 +8,7 @@ Guia rápido para rodar, testar e mexer no projeto.
 - `frontend/`: Vue 3, Vite, TypeScript, npm.
 - `docs/`: build estático gerado pelo frontend.
 
-O produto compara o domínio registrável principal informado pela pessoa usuária com os domínios oficiais em `backend/app/data/brands.json`.
+O produto compara o domínio registrável principal informado pela pessoa usuária com os domínios oficiais na tabela `public.companies` do Supabase.
 
 ## Rodar Localmente
 
@@ -35,7 +35,7 @@ cd frontend
 npm run build
 ```
 
-O Vite usa proxy em `/api` no desenvolvimento. Em produção, o frontend usa `VITE_API_BASE_URL` ou `https://tacertoosite.onrender.com`.
+O Vite usa proxy em `/api` no desenvolvimento. Em produção, o frontend usa `VITE_API_BASE_URL` ou `https://api-tacertoosite.guedeira.dev`.
 
 ## Testes
 
@@ -61,16 +61,16 @@ Rode testes ao mexer em normalização/validação de domínio, cadastro de empr
 Estrutura:
 
 - `routes`: rotas FastAPI.
-- `controllers`: adaptação HTTP para serviços.
+- `database_models`: modelos SQLAlchemy separados por tabela.
 - `services`: regras de negócio.
-- `repositories`: leitura de dados.
+- `repositories`: leitura de dados via SQLAlchemy.
 - `models`: estruturas de domínio.
-- `data`: cadastro manual.
 
 Regras:
 
 - Regra de negócio fica em `services`.
-- Leitura de arquivo fica em `repositories`.
+- Consulta ao banco fica em `repositories`.
+- Cada nova tabela deve ganhar um arquivo próprio em `database_models`.
 - Models não devem depender de FastAPI.
 - Use imports absolutos a partir de `app`.
 - Mantenha dependências em `backend/pyproject.toml`; rode `uv lock` após alterar.
@@ -93,7 +93,7 @@ Cuidados:
 
 ## Cadastro
 
-Arquivo: `backend/app/data/brands.json`.
+Tabela: `public.companies`.
 
 Padrão:
 
@@ -120,7 +120,7 @@ Antes de adicionar domínio, confirme em fonte oficial.
 - TypeScript/Vue: `camelCase` para variáveis, `PascalCase` para tipos/componentes.
 - CSS: classes em `kebab-case`.
 - JSON: chaves em `snake_case`.
-- O código ainda usa `brand`; não misture com `company` sem migração completa.
+- O código usa `company`/`companies` como padrão interno para acompanhar a tabela `public.companies`.
 
 ## Segurança
 

@@ -6,14 +6,14 @@ export function normalizeText(value: string): string {
     .trim();
 }
 
-export function filterBrands<T extends { name: string }>(brands: T[], term: string, limit = 6): T[] {
+export function filterCompanies<T extends { name: string }>(companies: T[], term: string, limit = 6): T[] {
   const normalizedTerm = normalizeText(term);
 
   if (!normalizedTerm) {
     return [];
   }
 
-  return brands
-    .filter((brand) => normalizeText(brand.name).includes(normalizedTerm))
+  return companies
+    .filter((company) => normalizeText(company.name).includes(normalizedTerm))
     .slice(0, limit);
 }
