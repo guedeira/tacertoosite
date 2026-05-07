@@ -1,4 +1,4 @@
-export interface Brand {
+export interface Company {
   id: string;
   name: string;
   official_domains?: string[];
@@ -6,13 +6,13 @@ export interface Brand {
 
 export interface ValidationResult {
   is_match: boolean;
-  brand: string;
+  company: string;
   official_domains: string[];
   submitted_domain: string;
   message: string;
 }
 
 export interface DomainValidationPayload {
-  brand_id: string;
+  company_id: string;
   input: string;
 }

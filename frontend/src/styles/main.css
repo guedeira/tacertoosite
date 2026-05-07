@@ -75,7 +75,7 @@ li {
   line-height: 1.6;
 }
 
-.brand-mark {
+.company-mark {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -84,7 +84,7 @@ li {
   text-decoration: none;
 }
 
-.brand-mark svg {
+.company-mark svg {
   width: 28px;
   height: 28px;
   color: #0f766e;
@@ -161,6 +161,12 @@ li {
 .hero__future-tools h2 {
   margin-bottom: 0;
   font-size: 1.06rem;
+}
+
+.hero__future-tools p {
+  margin-bottom: 0;
+  color: #536275;
+  font-size: 0.92rem;
 }
 
 .hero__future-actions {
@@ -267,7 +273,7 @@ li {
 }
 
 .field,
-.brand-autocomplete {
+.company-autocomplete {
   position: relative;
   display: grid;
   gap: 7px;
@@ -363,8 +369,8 @@ li {
 
 .base-button:focus-visible,
 .inline-link:focus-visible,
-.brand-list__item:focus-visible,
-.brand-autocomplete__option:focus-visible,
+.company-list__item:focus-visible,
+.company-autocomplete__option:focus-visible,
 .scam-type-button:focus-visible,
 .scam-types__more:focus-visible,
 .back-link:focus-visible {
@@ -438,7 +444,7 @@ li {
   }
 }
 
-.brand-autocomplete__options {
+.company-autocomplete__options {
   position: absolute;
   z-index: 10;
   top: 78px;
@@ -451,7 +457,7 @@ li {
   box-shadow: 0 18px 30px rgba(24, 48, 73, 0.16);
 }
 
-.brand-autocomplete__option {
+.company-autocomplete__option {
   display: block;
   width: 100%;
   min-height: 42px;
@@ -462,7 +468,7 @@ li {
   text-align: left;
 }
 
-.brand-autocomplete__option:hover {
+.company-autocomplete__option:hover {
   background: #eef7f5;
 }
 
@@ -796,13 +802,13 @@ li {
   margin: 22px;
 }
 
-.brand-list,
+.company-list,
 .domain-list {
   display: grid;
   gap: 8px;
 }
 
-.brand-list__item {
+.company-list__item {
   min-height: 42px;
   border: 1px solid #d3dce7;
   border-radius: 8px;
@@ -813,7 +819,7 @@ li {
   text-align: left;
 }
 
-.brand-list__item:hover {
+.company-list__item:hover {
   border-color: #0f766e;
   background: #f3faf8;
 }
@@ -851,7 +857,7 @@ li {
   margin-bottom: 34px;
 }
 
-.policy-page__brand {
+.policy-page__company {
   display: inline-flex;
 }
 

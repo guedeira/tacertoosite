@@ -17,7 +17,7 @@ defineEmits<{
   close: [];
 }>();
 
-const brandName = ref("");
+const companyName = ref("");
 const domain = ref("");
 const source = ref("");
 const description = ref("");
@@ -27,10 +27,10 @@ const messageTone = ref<"success" | "error">("success");
 const descriptionCount = computed(() => description.value.length);
 
 function submitRequest(): void {
-  const normalizedBrandName = brandName.value.trim() || props.suggestedName?.trim() || "";
+  const normalizedCompanyName = companyName.value.trim() || props.suggestedName?.trim() || "";
   const normalizedDomain = domain.value.trim().toLowerCase();
 
-  if (!normalizedBrandName || !normalizedDomain) {
+  if (!normalizedCompanyName || !normalizedDomain) {
     showMessage("Preencha o nome da empresa e o domínio oficial.", "error");
     return;
   }
@@ -40,11 +40,11 @@ function submitRequest(): void {
     return;
   }
 
-  const title = `Incluir domínio oficial: ${normalizedBrandName}`;
+  const title = `Incluir domínio oficial: ${normalizedCompanyName}`;
   const body = [
     "## Pedido de inclusão de empresa",
     "",
-    `Empresa: ${normalizedBrandName}`,
+    `Empresa: ${normalizedCompanyName}`,
     `Domínio oficial sugerido: ${normalizedDomain}`,
     `Fonte para conferência: ${source.value.trim() || "Não informada"}`,
     `Descrição: ${description.value.trim() || "Não informada"}`,
@@ -59,7 +59,7 @@ function submitRequest(): void {
   const issueUrl = `${GITHUB_NEW_ISSUE_URL}?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
   window.open(issueUrl, "_blank", "noopener,noreferrer");
   showMessage("O pedido foi aberto no GitHub para revisão.", "success");
-  brandName.value = "";
+  companyName.value = "";
   domain.value = "";
   source.value = "";
   description.value = "";
@@ -80,8 +80,8 @@ function showMessage(value: string, tone: "success" | "error"): void {
   >
     <form class="request-form" @submit.prevent="submitRequest">
       <BaseField
-        id="request-brand-name"
-        v-model="brandName"
+        id="request-company-name"
+        v-model="companyName"
         label="Nome da empresa"
         placeholder="Ex.: Empresa XPTO"
         autocomplete="organization"

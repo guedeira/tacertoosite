@@ -8,7 +8,7 @@ defineProps<{
 </script>
 
 <template>
-  <a class="brand-mark" :href="href || './index.html'" :aria-label="label || 'Página inicial'">
+  <a class="company-mark" :href="href || './index.html'" :aria-label="label || 'Página inicial'">
     <SearchCheck aria-hidden="true" />
     <span>Tá certo o site?</span>
   </a>
