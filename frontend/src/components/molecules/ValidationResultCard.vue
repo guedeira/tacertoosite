@@ -20,8 +20,8 @@ const visibleDomains = computed(() =>
 );
 const title = computed(() =>
   props.result.is_match
-    ? "O link bate com o endereço oficial cadastrado."
-    : "Atenção: o link não bate com o cadastro oficial.",
+    ? "Domínio oficial cadastrado encontrado."
+    : "Domínio diferente dos oficiais cadastrados.",
 );
 </script>
 

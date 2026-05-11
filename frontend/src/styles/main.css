@@ -266,8 +266,7 @@ li {
   color: #5b6879;
 }
 
-.validator-form,
-.request-form {
+.validator-form {
   display: grid;
   gap: 16px;
 }

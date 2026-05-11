@@ -10,8 +10,9 @@ import BaseField from "../atoms/BaseField.vue";
 import StatusMessage from "../atoms/StatusMessage.vue";
 import CompanyAutocomplete from "../molecules/CompanyAutocomplete.vue";
 import CompanyListModal from "./CompanyListModal.vue";
-import RequestCompanyModal from "./RequestCompanyModal.vue";
 import ValidationResultModal from "./ValidationResultModal.vue";
+
+const REQUEST_COMPANY_FORM_URL = "https://forms.gle/k7DeUUrqarm95VQX7";
 
 const companies = ref<Company[]>([]);
 const companySearch = ref("");
@@ -23,7 +24,6 @@ const statusTone = ref<"info" | "error">("info");
 const isBackendReady = ref(false);
 const isLoading = ref(false);
 const isCompaniesModalOpen = ref(false);
-const isRequestModalOpen = ref(false);
 const isResultModalOpen = ref(false);
 
 onMounted(() => {
@@ -104,6 +104,10 @@ function selectCompany(company: Company): void {
   selectedCompanyId.value = company.id;
   isCompaniesModalOpen.value = false;
 }
+
+function openRequestCompanyForm(): void {
+  window.open(REQUEST_COMPANY_FORM_URL, "_blank", "noopener,noreferrer");
+}
 </script>
 
 <template>
@@ -156,7 +160,7 @@ function selectCompany(company: Company): void {
             v-model:selected-company-id="selectedCompanyId"
             :companies="companies"
             :disabled="!isBackendReady"
-            @request-company="isRequestModalOpen = true"
+            @request-company="openRequestCompanyForm"
             @open-companies="isCompaniesModalOpen = true"
           />
 
@@ -174,7 +178,7 @@ function selectCompany(company: Company): void {
           </BaseButton>
         </form>
 
-        <BaseButton variant="ghost" @click="isRequestModalOpen = true">Pedir inclusão de empresa</BaseButton>
+        <BaseButton variant="ghost" @click="openRequestCompanyForm">Pedir inclusão de empresa</BaseButton>
       </div>
     </div>
   </section>
@@ -189,10 +193,5 @@ function selectCompany(company: Company): void {
     :open="isResultModalOpen"
     :result="result"
     @close="isResultModalOpen = false"
-  />
-  <RequestCompanyModal
-    :open="isRequestModalOpen"
-    :suggested-name="companySearch"
-    @close="isRequestModalOpen = false"
   />
 </template>
