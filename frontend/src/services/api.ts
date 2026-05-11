@@ -52,7 +52,7 @@ export async function validateDomain(payload: DomainValidationPayload): Promise<
   );
 
   if (!response.ok) {
-    throw new Error("Não foi possível comparar o domínio.");
+    throw new Error("Não foi possível conferir o link.");
   }
 
   return response.json() as Promise<ValidationResult>;

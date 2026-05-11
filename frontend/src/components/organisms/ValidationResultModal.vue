@@ -16,13 +16,13 @@ defineEmits<{
 }>();
 
 const modalTitle = computed(() =>
-  props.result?.is_match ? "Domínio reconhecido" : "Domínio desconhecido",
+  props.result?.is_match ? "Link reconhecido" : "Link suspeito",
 );
 
 const modalDescription = computed(() =>
   props.result?.is_match
-    ? "O endereço principal do link aparece na lista oficial cadastrada para esta empresa."
-    : "O endereço principal do link não aparece entre os domínios oficiais cadastrados para esta empresa.",
+    ? "O domínio principal do link aparece na lista oficial cadastrada para esta empresa."
+    : "O domínio principal do link não aparece entre os domínios oficiais cadastrados para esta empresa.",
 );
 </script>
 
@@ -51,7 +51,7 @@ const modalDescription = computed(() =>
         </ul>
 
         <ul v-else>
-          <li>Não preencha login, código de confirmação, cartão, documento, PIX ou qualquer dado sensível nesse endereço.</li>
+          <li>Não preencha login, código de confirmação, cartão, documento, PIX ou qualquer dado sensível nesse link.</li>
           <li>Se você já enviou informações, troque senhas, bloqueie cartões ou pagamentos suspeitos e avise o suporte oficial sobre o link recebido.</li>
           <li>Entre em contato com o suporte oficial da empresa por um canal verificado: aplicativo, site digitado manualmente, telefone do cartão/boleto ou perfil verificado.</li>
           <li>Se você sabe que esse domínio também é oficial, ajude a deixar a internet mais segura pedindo a inclusão com uma fonte confiável para revisão.</li>
