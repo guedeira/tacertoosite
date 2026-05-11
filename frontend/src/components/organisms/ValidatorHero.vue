@@ -12,6 +12,7 @@ import CompanyListModal from "./CompanyListModal.vue";
 import ValidationResultModal from "./ValidationResultModal.vue";
 
 const REQUEST_COMPANY_FORM_URL = "https://forms.gle/k7DeUUrqarm95VQX7";
+const DOMAIN_INPUT_MAX_LENGTH = 2048;
 
 const companies = ref<Company[]>([]);
 const companySearch = ref("");
@@ -150,6 +151,7 @@ function openRequestCompanyForm(): void {
             label="Link recebido"
             placeholder="Ex.: https://exemplo.com.br/promocao"
             required
+            :maxlength="DOMAIN_INPUT_MAX_LENGTH"
             :disabled="!isBackendReady"
           />
 

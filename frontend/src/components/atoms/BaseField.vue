@@ -11,6 +11,7 @@ const props = defineProps<{
   required?: boolean;
   disabled?: boolean;
   autocomplete?: string;
+  maxlength?: number;
   showRequiredMarker?: boolean;
   validateRequiredOnBlur?: boolean;
 }>();
@@ -49,6 +50,7 @@ const describedBy = computed(() => {
       :required="required"
       :disabled="disabled"
       :autocomplete="autocomplete || 'off'"
+      :maxlength="maxlength"
       :aria-invalid="showRequiredError"
       :aria-describedby="describedBy"
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"

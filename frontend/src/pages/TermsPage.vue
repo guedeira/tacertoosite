@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import AppNavbar from "../components/templates/AppNavbar.vue";
+import SiteFooter from "../components/templates/SiteFooter.vue";
 </script>
 
 <template>
   <AppNavbar
     home-href="../index.html"
+    glossary-href="../glossario/"
     guide-href="../golpes/"
     active-page="terms"
   />
@@ -83,4 +85,5 @@ import AppNavbar from "../components/templates/AppNavbar.vue";
       </section>
     </article>
   </main>
+  <SiteFooter terms-href="./termos-de-uso.html" />
 </template>

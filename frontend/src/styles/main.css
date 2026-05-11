@@ -5,6 +5,7 @@
     sans-serif;
   color: #152033;
   background: #f3f7f4;
+  --page-max-width: 1220px;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -16,11 +17,13 @@
 
 body {
   min-width: 320px;
+  min-height: 100vh;
   margin: 0;
   background:
     linear-gradient(135deg, rgba(17, 96, 86, 0.14), transparent 34%),
     linear-gradient(205deg, rgba(47, 111, 182, 0.12), transparent 36%),
     #f3f7f4;
+  background-attachment: fixed;
 }
 
 html {
@@ -55,7 +58,7 @@ p {
 }
 
 h1 {
-  max-width: 620px;
+  max-width: 100%;
   margin-bottom: 16px;
   font-size: clamp(2.15rem, 3.55vw, 3.95rem);
   line-height: 1.08;
@@ -107,7 +110,7 @@ li {
   gap: 18px;
   align-items: center;
   justify-content: space-between;
-  width: min(100%, 1220px);
+  width: min(100%, var(--page-max-width));
   margin: 0 auto;
   border: 1px solid rgba(22, 43, 64, 0.12);
   border-radius: 8px;
@@ -186,7 +189,7 @@ li {
   grid-template-columns: minmax(0, 1fr) minmax(420px, 1fr);
   gap: clamp(28px, 5vw, 72px);
   align-items: start;
-  width: min(100% - 32px, 1220px);
+  width: min(100% - 32px, var(--page-max-width));
   margin: 0 auto;
   padding: 16px 0 32px;
 }
@@ -572,7 +575,7 @@ li {
 .info-section__content {
   display: grid;
   align-items: start;
-  width: min(100%, 1220px);
+  width: min(100%, var(--page-max-width));
   margin: 0 auto;
 }
 
@@ -854,19 +857,69 @@ li {
   font-weight: 800;
 }
 
-.policy-shell {
-  padding: 28px 16px 56px;
+.back-to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(15, 118, 110, 0.28);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #0d5f59;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 10px 28px rgba(24, 48, 73, 0.12);
+  backdrop-filter: blur(12px);
+  transform: translateY(8px);
+  transition:
+    border-color 140ms ease,
+    background 140ms ease,
+    opacity 160ms ease,
+    transform 140ms ease;
+}
+
+.back-to-top--visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  border-color: #0f766e;
+  background: #f2fbf8;
+  transform: translateY(-1px);
+}
+
+.back-to-top:focus-visible {
+  outline: 4px solid rgba(15, 118, 110, 0.2);
+  outline-offset: 2px;
+}
+
+.back-to-top svg {
+  width: 20px;
+  height: 20px;
+}
+
+.policy-shell,
+.scams-page-shell,
+.glossary-shell {
+  padding: 16px 16px 56px;
 }
 
 .policy-page {
-  width: min(100%, 860px);
+  width: min(100%, var(--page-max-width));
   margin: 0 auto;
   padding: clamp(24px, 5vw, 48px);
 }
 
 .policy-page h1 {
   margin-top: 0;
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(2rem, 4vw, 3.8rem);
 }
 
 .policy-updated {
@@ -882,15 +935,12 @@ li {
 
 .policy-page p,
 .policy-page li {
+  max-width: 880px;
   color: #4f5f73;
 }
 
-.scams-page-shell {
-  padding: 28px 16px 56px;
-}
-
 .scams-page {
-  width: min(100%, 1120px);
+  width: min(100%, var(--page-max-width));
   margin: 0 auto;
 }
 
@@ -899,12 +949,12 @@ li {
 }
 
 .scams-page__header h1 {
-  max-width: 1080px;
-  font-size: clamp(2.5rem, 5vw, 4.6rem);
+  max-width: none;
+  font-size: clamp(2.35rem, 4vw, 3.85rem);
 }
 
 .scams-page__header p {
-  max-width: 920px;
+  max-width: 980px;
   color: #4f5f73;
   font-size: 1.04rem;
 }
@@ -1015,6 +1065,83 @@ li {
   font-weight: 750;
 }
 
+@media (min-width: 1280px) {
+  .back-to-top {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 1279px) {
+  .back-to-top {
+    display: none;
+  }
+}
+
+.glossary-page {
+  width: min(100%, var(--page-max-width));
+  margin: 0 auto;
+}
+
+.glossary-page__header {
+  margin-bottom: 22px;
+}
+
+.glossary-page__header h1 {
+  max-width: none;
+  font-size: clamp(2.35rem, 4vw, 3.85rem);
+}
+
+.glossary-page__header p {
+  max-width: 980px;
+  color: #4f5f73;
+  font-size: 1.04rem;
+}
+
+.glossary-table {
+  overflow: hidden;
+  border: 1px solid rgba(22, 43, 64, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 10px 28px rgba(24, 48, 73, 0.07);
+}
+
+.glossary-table__head,
+.glossary-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.75fr) minmax(240px, 1.25fr) minmax(240px, 1.2fr);
+  gap: 18px;
+  align-items: start;
+  padding: 16px 18px;
+}
+
+.glossary-table__head {
+  border-bottom: 1px solid #dce7e3;
+  background: #f2fbf8;
+  color: #0d5f59;
+  font-size: 0.82rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.glossary-row + .glossary-row {
+  border-top: 1px solid #e4ebf2;
+}
+
+.glossary-row h2,
+.glossary-row p {
+  margin: 0;
+}
+
+.glossary-row h2 {
+  color: #12233a;
+  font-size: 1rem;
+}
+
+.glossary-row p {
+  color: #4f5f73;
+}
+
 @media (max-width: 920px) {
   .tools-menu__inner {
     align-items: stretch;
@@ -1058,6 +1185,16 @@ li {
   .hero__eyebrow {
     margin-top: 22px;
   }
+
+  .glossary-table__head,
+  .glossary-row {
+    grid-template-columns: minmax(130px, 0.72fr) minmax(0, 1.28fr);
+  }
+
+  .glossary-table__head span:last-child,
+  .glossary-row p:last-child {
+    grid-column: 2;
+  }
 }
 
 @media (max-width: 680px) {
@@ -1078,7 +1215,7 @@ li {
   }
 
   .hero {
-    width: min(100% - 24px, 1220px);
+    width: min(100% - 24px, var(--page-max-width));
     gap: 24px;
     padding-bottom: 36px;
   }
@@ -1100,6 +1237,38 @@ li {
 
   .scam-guide-grid {
     grid-template-columns: 1fr;
+  }
+
+  .glossary-table {
+    display: grid;
+    gap: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .glossary-table__head {
+    display: none;
+  }
+
+  .glossary-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    border: 1px solid rgba(22, 43, 64, 0.12);
+    border-radius: 8px;
+    padding: 18px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 8px 22px rgba(24, 48, 73, 0.06);
+  }
+
+  .glossary-row + .glossary-row {
+    border-top: 1px solid rgba(22, 43, 64, 0.12);
+    margin-top: 10px;
+  }
+
+  .glossary-row h2 {
+    color: #0d5f59;
   }
 
   .scam-types__list {
