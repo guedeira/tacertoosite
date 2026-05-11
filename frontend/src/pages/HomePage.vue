@@ -21,7 +21,7 @@ function closeScamModal(): void {
 
 <template>
   <main>
-    <AppNavbar />
+    <AppNavbar glossary-href="./glossario/" />
     <ValidatorHero />
     <section class="info-section" aria-label="Informações de apoio sobre links suspeitos">
       <div class="info-section__content">

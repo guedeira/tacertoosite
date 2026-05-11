@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppNavbar from "../components/templates/AppNavbar.vue";
+import SiteFooter from "../components/templates/SiteFooter.vue";
 import { scamTypes } from "../data/scams";
 
 const groupedScams = scamTypes.reduce<Record<string, typeof scamTypes>>((groups, scamType) => {
@@ -15,6 +16,7 @@ function getGroupId(category: string): string {
 <template>
   <AppNavbar
     home-href="../index.html"
+    glossary-href="../glossario/"
     guide-href="./"
     active-page="guide"
   />
@@ -82,4 +84,5 @@ function getGroupId(category: string): string {
       </section>
     </section>
   </main>
+  <SiteFooter terms-href="../politicas/termos-de-uso.html" />
 </template>

@@ -13,6 +13,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "index.html"),
         scams: resolve(__dirname, "golpes/index.html"),
+        glossary: resolve(__dirname, "glossario/index.html"),
         terms: resolve(__dirname, "politicas/termos-de-uso.html"),
       },
     },
