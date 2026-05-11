@@ -16,13 +16,13 @@ defineEmits<{
 }>();
 
 const modalTitle = computed(() =>
-  props.result?.is_match ? "Resultado da comparação" : "Atenção antes de continuar",
+  props.result?.is_match ? "Link reconhecido" : "Link suspeito",
 );
 
 const modalDescription = computed(() =>
   props.result?.is_match
-    ? "O domínio informado bate com o cadastro oficial para a empresa escolhida."
-    : "O domínio informado não bate com o cadastro oficial para a empresa escolhida.",
+    ? "O domínio principal do link aparece na lista oficial cadastrada para esta empresa."
+    : "O domínio principal do link não aparece entre os domínios oficiais cadastrados para esta empresa.",
 );
 </script>
 
@@ -40,19 +40,21 @@ const modalDescription = computed(() =>
       <section class="next-steps" aria-labelledby="next-steps-title">
         <div class="next-steps__header">
           <component :is="result.is_match ? CheckCircle2 : AlertTriangle" aria-hidden="true" />
-          <h3 id="next-steps-title">{{ result.is_match ? "Próximos cuidados" : "O que fazer agora" }}</h3>
+          <h3 id="next-steps-title">{{ result.is_match ? "Cuidado nunca é demais" : "Ações recomendadas" }}</h3>
         </div>
 
         <ul v-if="result.is_match">
-          <li>Confira se a página realmente pertence à empresa antes de informar dados sensíveis.</li>
-          <li>Evite seguir links recebidos com urgência, prêmio, ameaça ou cobrança inesperada.</li>
-          <li>Quando houver dúvida, acesse a empresa digitando o endereço oficial no navegador.</li>
+          <li>Este resultado confirma o domínio principal, mas não garante que a página, oferta ou mensagem seja verdadeira.</li>
+          <li>Antes de informar senha, código, cartão ou documento, confira se você esperava esse contato e se a ação faz sentido.</li>
+          <li>Se o link veio com urgência, cobrança, prêmio ou ameaça, abra o app ou digite o site oficial no navegador em vez de continuar pelo link recebido.</li>
+          <li>Na dúvida, entre em contato com o suporte oficial da empresa por um canal verificado: aplicativo, site digitado manualmente, telefone do cartão/boleto ou perfil verificado.</li>
         </ul>
 
         <ul v-else>
-          <li>Não informe senha, código, cartão, documento ou dados bancários nesse link.</li>
-          <li>Procure a empresa por um canal oficial que você já conheça.</li>
-          <li>Se o domínio oficial estiver incompleto na base, peça a inclusão para revisão.</li>
+          <li>Não preencha login, código de confirmação, cartão, documento, PIX ou qualquer dado sensível nesse link.</li>
+          <li>Se você já enviou informações, troque senhas, bloqueie cartões ou pagamentos suspeitos e avise o suporte oficial sobre o link recebido.</li>
+          <li>Entre em contato com o suporte oficial da empresa por um canal verificado: aplicativo, site digitado manualmente, telefone do cartão/boleto ou perfil verificado.</li>
+          <li>Se você sabe que esse domínio também é oficial, ajude a deixar a internet mais segura pedindo a inclusão com uma fonte confiável para revisão.</li>
         </ul>
       </section>
     </div>

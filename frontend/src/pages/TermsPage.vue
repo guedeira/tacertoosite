@@ -1,22 +1,24 @@
 <script setup lang="ts">
-import AppLogo from "../components/atoms/AppLogo.vue";
+import AppNavbar from "../components/templates/AppNavbar.vue";
+import SiteFooter from "../components/templates/SiteFooter.vue";
 </script>
 
 <template>
+  <AppNavbar
+    home-href="../index.html"
+    glossary-href="../glossario/"
+    guide-href="../golpes/"
+    active-page="terms"
+  />
   <main class="policy-shell">
     <article class="policy-page" aria-labelledby="policy-title">
-      <div class="policy-page__topbar">
-        <AppLogo class="policy-page__company" href="../index.html" label="Voltar para a página inicial" />
-        <a class="back-link" href="../index.html">Voltar para a página principal</a>
-      </div>
-
       <h1 id="policy-title">Termos de uso</h1>
       <p class="policy-updated">Última atualização: 5 de maio de 2026</p>
 
       <section>
         <h2>1. Objetivo da aplicação</h2>
         <p>
-          O <strong>Tá certo o site?</strong> é uma ferramenta informativa que compara o link informado com os endereços oficiais cadastrados para uma empresa.
+          O <strong>Tá certo o site?</strong> é uma ferramenta informativa que confere o link informado usando os domínios oficiais cadastrados para uma empresa.
         </p>
         <p>
           A aplicação ajuda a perceber se a parte principal do link, chamada domínio, bate com a lista mantida na base do projeto.
@@ -26,9 +28,9 @@ import AppLogo from "../components/atoms/AppLogo.vue";
       <section>
         <h2>2. O que a aplicação faz</h2>
         <ul>
-          <li>recebe um link completo ou endereço principal informado pela pessoa;</li>
+          <li>recebe um link completo informado pela pessoa;</li>
           <li>identifica e organiza o domínio principal;</li>
-          <li>compara esse domínio com os endereços oficiais cadastrados para a empresa selecionada;</li>
+          <li>compara esse domínio com os domínios oficiais cadastrados para a empresa selecionada;</li>
           <li>informa se houve correspondência com a base cadastrada.</li>
         </ul>
         <p>
@@ -55,7 +57,7 @@ import AppLogo from "../components/atoms/AppLogo.vue";
       </section>
 
       <section>
-        <h2>5. Lista de endereços cadastrados</h2>
+        <h2>5. Lista de domínios cadastrados</h2>
         <p>
           Os domínios oficiais são cadastrados manualmente e podem estar incompletos, desatualizados ou conter erro. Pedidos de inclusão, correção ou remoção passam por revisão e não garantem aprovação.
         </p>
@@ -83,4 +85,5 @@ import AppLogo from "../components/atoms/AppLogo.vue";
       </section>
     </article>
   </main>
+  <SiteFooter terms-href="./termos-de-uso.html" />
 </template>

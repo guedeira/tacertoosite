@@ -31,7 +31,7 @@ export const scamTypes: ScamType[] = [
       "Site diferente do oficial.",
     ],
     action:
-      "Não use o login aberto pelo link recebido. Feche a página, abra o aplicativo ou digite o endereço oficial no navegador e entre por lá. Se já informou senha ou código, troque a senha e revise os acessos da conta.",
+      "Não use o login aberto pelo link recebido. Feche a página, abra o aplicativo ou digite o site oficial no navegador e entre por lá. Se já informou senha ou código, troque a senha e revise os acessos da conta.",
   },
   {
     id: "verificacao-conta-falsa",
@@ -44,7 +44,7 @@ export const scamTypes: ScamType[] = [
       "Pedido urgente de confirmação.",
       "Solicitação de documento, selfie ou cartão.",
       "Link enviado por SMS, WhatsApp ou e-mail inesperado.",
-      "Domínio estranho ou diferente do original.",
+      "Link estranho ou diferente do original.",
     ],
     action:
       "Faça qualquer confirmação dentro do aplicativo oficial ou área logada do site. Se a mensagem veio por SMS, WhatsApp ou e-mail inesperado, não envie documento, selfie ou cartão antes de confirmar no canal oficial.",
@@ -58,7 +58,7 @@ export const scamTypes: ScamType[] = [
       "Golpistas criam páginas falsas de cobrança, segunda via ou regularização para receber pagamentos indevidos.",
     signs: ["PIX para pessoa desconhecida.", "Desconto exagerado.", "Cobrança inesperada.", "Site diferente do oficial."],
     action:
-      "Antes de pagar, confira o domínio do site e os dados do recebedor. Se a cobrança não aparece no aplicativo, boleto ou área oficial da empresa, pare e fale com o atendimento oficial.",
+      "Antes de pagar, confira o link e os dados do recebedor. Se a cobrança não aparece no aplicativo, boleto ou área oficial da empresa, pare e fale com o atendimento oficial.",
   },
   {
     id: "pagina-falsa-compra",
@@ -67,7 +67,7 @@ export const scamTypes: ScamType[] = [
     shortDescription: "Loja falsa com aparência real, criada para receber sem entregar.",
     modalDescription:
       "A vítima acredita estar comprando em uma loja verdadeira, mas o site foi criado apenas para receber pagamentos.",
-    signs: ["Preço muito abaixo do normal.", "Apenas PIX como pagamento.", "Poucas informações da loja.", "Domínio estranho ou recém-criado."],
+    signs: ["Preço muito abaixo do normal.", "Apenas PIX como pagamento.", "Poucas informações da loja.", "Link estranho ou recém-criado."],
     action:
       "Pesquise o nome da loja fora do anúncio, confira CNPJ, canais de atendimento e reputação. Evite pagar por PIX quando o site não oferece informações claras sobre a empresa.",
   },
@@ -93,10 +93,10 @@ export const scamTypes: ScamType[] = [
       "Taxa inesperada.",
       "Link enviado por SMS ou WhatsApp.",
       "Pressa para pagamento.",
-      "Página parecida, mas com endereço diferente do oficial.",
+      "Página parecida, mas com link diferente do oficial.",
     ],
     action:
-      "Digite o endereço oficial da transportadora ou dos Correios no navegador. Use o código de rastreio dentro do canal oficial e desconfie se a cobrança só aparece no link recebido.",
+      "Digite o site oficial da transportadora ou dos Correios no navegador. Use o código de rastreio dentro do canal oficial e desconfie se a cobrança só aparece no link recebido.",
   },
   {
     id: "promocao-premio",
@@ -105,7 +105,7 @@ export const scamTypes: ScamType[] = [
     shortDescription: "Cupom, brinde ou sorteio falso usado para fazer você clicar rapidamente.",
     modalDescription:
       "Golpistas usam cupons, brindes e sorteios para fazer você clicar rapidamente.",
-    signs: ["Oferta boa demais.", "Contagem regressiva.", "Pedido de login ou pagamento.", "Domínio estranho."],
+    signs: ["Oferta boa demais.", "Contagem regressiva.", "Pedido de login ou pagamento.", "Link estranho."],
     action:
       "Procure a promoção no site, aplicativo ou perfil verificado da empresa. Se o benefício depende de login, compartilhamento ou pagamento imediato, pare antes de continuar.",
   },
@@ -153,11 +153,11 @@ export const scamTypes: ScamType[] = [
     category: "Mesmo em sites oficiais, ainda tenha cuidado",
     shortDescription: "Uma conta verdadeira pode ser invadida e começar a divulgar links maliciosos.",
     modalDescription:
-      "Às vezes uma conta verdadeira de empresa, influenciador ou loja pode ser invadida e começar a divulgar links maliciosos. Mesmo que a mensagem pareça legítima, confira o endereço do site antes de clicar.",
+      "Às vezes uma conta verdadeira de empresa, influenciador ou loja pode ser invadida e começar a divulgar links maliciosos. Mesmo que a mensagem pareça legítima, confira o link antes de clicar.",
     signs: [
       "Mensagem muito diferente do padrão da conta.",
       "Oferta, cobrança ou pedido urgente fora de contexto.",
-      "Link externo encurtado ou com domínio estranho.",
+      "Link externo encurtado ou estranho.",
       "Pedido de senha, pagamento ou dados pessoais.",
     ],
     action:
@@ -188,12 +188,12 @@ export const scamTypes: ScamType[] = [
       "Golpistas também usam anúncios pagos ou publicações impulsionadas em plataformas conhecidas. A plataforma pode ser real, mas o link do anúncio pode levar para uma página falsa.",
     signs: [
       "Anúncio prometendo preço, benefício ou saque muito acima do normal.",
-      "Link que sai da plataforma e abre um domínio estranho.",
+      "Link que sai da plataforma e abre uma página estranha.",
       "Página pedindo login, pagamento ou dados pessoais logo no começo.",
       "Nome da empresa escrito de forma parecida, mas não igual.",
     ],
     action:
-      "Antes de confiar no anúncio, confira se o endereço aberto pertence ao site oficial da empresa. Se ainda houver dúvida, procure o suporte ou canal oficial da marca sem usar o link do anúncio.",
+      "Antes de confiar no anúncio, confira se o link aberto pertence ao site oficial da empresa. Se ainda houver dúvida, procure o suporte ou canal oficial da marca sem usar o link do anúncio.",
   },
   {
     id: "pagina-esquecida-site-oficial",

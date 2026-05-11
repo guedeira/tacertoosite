@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { ArrowRight, Building2, ClipboardCheck, Link2, SearchCheck } from "lucide-vue-next";
+import { ArrowRight, Building2, SearchCheck } from "lucide-vue-next";
 import { onMounted, ref } from "vue";
 
 import { checkHealth, getCompanies, validateDomain } from "../../services/api";
 import type { Company, ValidationResult } from "../../types/api";
-import AppLogo from "../atoms/AppLogo.vue";
 import BaseButton from "../atoms/BaseButton.vue";
 import BaseField from "../atoms/BaseField.vue";
 import StatusMessage from "../atoms/StatusMessage.vue";
 import CompanyAutocomplete from "../molecules/CompanyAutocomplete.vue";
 import CompanyListModal from "./CompanyListModal.vue";
-import RequestCompanyModal from "./RequestCompanyModal.vue";
 import ValidationResultModal from "./ValidationResultModal.vue";
+
+const REQUEST_COMPANY_FORM_URL = "https://forms.gle/k7DeUUrqarm95VQX7";
+const DOMAIN_INPUT_MAX_LENGTH = 2048;
 
 const companies = ref<Company[]>([]);
 const companySearch = ref("");
@@ -23,7 +24,6 @@ const statusTone = ref<"info" | "error">("info");
 const isBackendReady = ref(false);
 const isLoading = ref(false);
 const isCompaniesModalOpen = ref(false);
-const isRequestModalOpen = ref(false);
 const isResultModalOpen = ref(false);
 
 onMounted(() => {
@@ -78,7 +78,7 @@ async function submitValidation(): Promise<void> {
 
   if (!domainInput.value.trim()) {
     statusTone.value = "error";
-    statusMessage.value = "Digite um link ou endereço válido.";
+    statusMessage.value = "Digite um link válido.";
     return;
   }
 
@@ -104,40 +104,25 @@ function selectCompany(company: Company): void {
   selectedCompanyId.value = company.id;
   isCompaniesModalOpen.value = false;
 }
+
+function openRequestCompanyForm(): void {
+  window.open(REQUEST_COMPANY_FORM_URL, "_blank", "noopener,noreferrer");
+}
 </script>
 
 <template>
-  <section class="hero" aria-labelledby="page-title">
+  <section id="comparar-site" class="hero" aria-labelledby="page-title">
     <div class="hero__context">
-      <AppLogo />
       <p class="hero__eyebrow">Nem tudo é o que parece</p>
-      <h1 id="page-title">O site parece verdadeiro. O link talvez não seja.</h1>
+      <h1 id="page-title">O site parece verdadeiro, o link talvez não seja.</h1>
       <p class="hero__intro">
-        Cole o endereço recebido e compare com o domínio oficial da empresa.
+        Cole o link recebido e compare o domínio dele com os domínios oficiais da empresa.
         Uma forma simples de identificar páginas falsas antes de informar dados, senhas ou realizar pagamentos.
         Evite golpes, fique tranquilo 😎
       </p>
       <div class="hero__facts" aria-label="Resumo da ferramenta">
         <span><Building2 aria-hidden="true" /> Empresas cadastradas</span>
-        <span><SearchCheck aria-hidden="true" /> Domínios validados</span>
-      </div>
-      <div class="hero__future-tools" aria-label="Ferramentas futuras">
-        <h2>Outras ferramentas estão a caminho</h2>
-        <p>
-          Pequenas verificações podem evitar grandes problemas. Aqui você encontra ferramentas pensadas para validar links e reduzir riscos online.
-        </p>
-        <div class="hero__future-actions">
-          <button type="button" aria-disabled="true" aria-label="Checklist antigolpe em desenvolvimento">
-            <ClipboardCheck aria-hidden="true" />
-            Checklist antigolpe
-            <span role="tooltip">Em roadmap</span>
-          </button>
-          <button type="button" aria-disabled="true" aria-label="Resolvedor de short links em desenvolvimento">
-            <Link2 aria-hidden="true" />
-            Resolver short link
-            <span role="tooltip">Em roadmap</span>
-          </button>
-        </div>
+        <span><SearchCheck aria-hidden="true" /> Links conferidos</span>
       </div>
     </div>
 
@@ -145,7 +130,7 @@ function selectCompany(company: Company): void {
       <div class="tool-card">
         <div class="tool-card__header">
           <h2>Conferir um link</h2>
-          <p>Cole o endereço completo, inclusive quando ele vier cheio de números, caminhos ou parâmetros.</p>
+          <p>Cole o link completo, inclusive quando ele vier cheio de números, caminhos ou parâmetros.</p>
         </div>
 
         <StatusMessage v-if="statusMessage" :tone="statusTone" :message="statusMessage" :busy="statusTone === 'info' && !isBackendReady" />
@@ -156,7 +141,7 @@ function selectCompany(company: Company): void {
             v-model:selected-company-id="selectedCompanyId"
             :companies="companies"
             :disabled="!isBackendReady"
-            @request-company="isRequestModalOpen = true"
+            @request-company="openRequestCompanyForm"
             @open-companies="isCompaniesModalOpen = true"
           />
 
@@ -166,15 +151,16 @@ function selectCompany(company: Company): void {
             label="Link recebido"
             placeholder="Ex.: https://exemplo.com.br/promocao"
             required
+            :maxlength="DOMAIN_INPUT_MAX_LENGTH"
             :disabled="!isBackendReady"
           />
 
           <BaseButton type="submit" :disabled="!isBackendReady || isLoading" :icon="ArrowRight">
-            {{ isLoading ? "Comparando..." : "Comparar" }}
+            {{ isLoading ? "Conferindo..." : "Conferir link" }}
           </BaseButton>
         </form>
 
-        <BaseButton variant="ghost" @click="isRequestModalOpen = true">Pedir inclusão de empresa</BaseButton>
+        <BaseButton variant="ghost" @click="openRequestCompanyForm">Pedir inclusão de empresa</BaseButton>
       </div>
     </div>
   </section>
@@ -189,10 +175,5 @@ function selectCompany(company: Company): void {
     :open="isResultModalOpen"
     :result="result"
     @close="isResultModalOpen = false"
-  />
-  <RequestCompanyModal
-    :open="isRequestModalOpen"
-    :suggested-name="companySearch"
-    @close="isRequestModalOpen = false"
   />
 </template>
