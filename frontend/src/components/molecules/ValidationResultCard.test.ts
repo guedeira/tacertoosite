@@ -17,7 +17,7 @@ describe("ValidationResultCard", () => {
       },
     });
 
-    expect(wrapper.text()).toContain("Domínio oficial cadastrado encontrado.");
+    expect(wrapper.text()).toContain("Link compatível com a lista oficial.");
     expect(wrapper.text()).toContain("Domínio encontrado.");
   });
 
@@ -34,7 +34,7 @@ describe("ValidationResultCard", () => {
       },
     });
 
-    expect(wrapper.text()).toContain("Domínio diferente dos oficiais cadastrados.");
+    expect(wrapper.text()).toContain("Link diferente da lista oficial.");
     expect(wrapper.text()).toContain("google.com");
     expect(wrapper.text()).toContain("gmail.com");
   });

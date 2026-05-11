@@ -3,6 +3,7 @@ import { computed, ref } from "vue";
 
 import AppModal from "../components/molecules/AppModal.vue";
 import ValidatorHero from "../components/organisms/ValidatorHero.vue";
+import AppNavbar from "../components/templates/AppNavbar.vue";
 import SiteFooter from "../components/templates/SiteFooter.vue";
 import { scamTypes } from "../data/scams";
 
@@ -20,6 +21,7 @@ function closeScamModal(): void {
 
 <template>
   <main>
+    <AppNavbar />
     <ValidatorHero />
     <section class="info-section" aria-label="Informações de apoio sobre links suspeitos">
       <div class="info-section__content">
@@ -31,7 +33,7 @@ function closeScamModal(): void {
             </p>
             <ul class="education-panel__tips">
               <li>Desconfie de bloqueio, multa, prêmio ou taxa urgente.</li>
-              <li>Confira o domínio antes de digitar dados.</li>
+              <li>Confira o link antes de digitar dados.</li>
               <li>Na dúvida, abra o app ou site oficial.</li>
             </ul>
           </aside>
@@ -39,7 +41,7 @@ function closeScamModal(): void {
           <article class="insight">
             <h2>O que a ferramenta compara?</h2>
             <p>
-              Ela separa o domínio principal do link e compara com a base oficial da empresa escolhida.
+              Ela separa o domínio principal do link e compara com os domínios oficiais da empresa escolhida.
             </p>
             <div class="domain-example" aria-label="Exemplo de comparação de domínio">
               <p><strong>Exemplo com Mercado Livre</strong></p>
@@ -64,7 +66,7 @@ function closeScamModal(): void {
           <article class="insight insight--wide scam-types" aria-labelledby="scam-types-title">
             <h2 id="scam-types-title">Golpes comuns utilizando links falsos ou comprometidos</h2>
             <p>
-              Muitos golpes usam o nome de uma empresa real, mas mandam você para outro endereço. Conheça alguns casos em que comparar o domínio ajuda a evitar cilada.
+              Muitos golpes usam o nome de uma empresa real, mas mandam você para um link falso. Conheça alguns casos em que conferir o link ajuda a evitar cilada.
             </p>
             <div class="scam-types__list">
               <button

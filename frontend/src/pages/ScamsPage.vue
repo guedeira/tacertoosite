@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppLogo from "../components/atoms/AppLogo.vue";
+import AppNavbar from "../components/templates/AppNavbar.vue";
 import { scamTypes } from "../data/scams";
 
 const groupedScams = scamTypes.reduce<Record<string, typeof scamTypes>>((groups, scamType) => {
@@ -13,13 +13,13 @@ function getGroupId(category: string): string {
 </script>
 
 <template>
+  <AppNavbar
+    home-href="../index.html"
+    guide-href="./"
+    active-page="guide"
+  />
   <main class="scams-page-shell">
     <section class="scams-page" aria-labelledby="scams-page-title">
-      <div class="scams-page__topbar">
-        <AppLogo class="policy-page__company" href="../index.html" label="Voltar para a página inicial" />
-        <a class="back-link" href="../index.html">Voltar para conferir um link</a>
-      </div>
-
       <header class="scams-page__header">
         <p class="hero__eyebrow">Guia simples de atenção</p>
         <h1 id="scams-page-title">Golpes comuns utilizando links falsos ou comprometidos</h1>
@@ -32,7 +32,7 @@ function getGroupId(category: string): string {
       <section class="scams-page__quick-check" aria-labelledby="quick-check-title">
         <h2 id="quick-check-title">Antes de clicar em qualquer link</h2>
         <ul>
-          <li>Veja se o domínio principal combina com o site oficial.</li>
+          <li>Veja se o link combina com o site oficial.</li>
           <li>Desconfie de urgência, ameaça, prêmio fácil ou desconto grande demais.</li>
           <li>Não informe senha, código, cartão ou documento em páginas abertas por links recebidos.</li>
           <li>Quando houver dúvida, feche o link e entre pelo aplicativo ou site oficial.</li>
@@ -43,7 +43,7 @@ function getGroupId(category: string): string {
             Zero Trust significa não confiar automaticamente em algo só porque ele parece familiar ou verídico. Antes de agir, confirme.
           </p>
           <ul>
-            <li><strong>Verifique sempre:</strong> confira domínio, contexto e canal oficial.</li>
+            <li><strong>Verifique sempre:</strong> confira link, contexto e canal oficial.</li>
             <li><strong>Use o mínimo necessário:</strong> não entregue senha, código ou documento sem necessidade clara.</li>
             <li><strong>Assuma risco:</strong> trate mensagens urgentes como suspeitas até confirmar por outro caminho.</li>
           </ul>
@@ -71,10 +71,10 @@ function getGroupId(category: string): string {
       <section class="scams-page__final-message" aria-labelledby="scams-final-title">
         <h2 id="scams-final-title">Lembre-se</h2>
         <p>
-          O objetivo desta ferramenta é ajudar você a identificar links suspeitos comparando o domínio acessado com o domínio oficial da empresa.
+          O objetivo desta ferramenta é ajudar você a identificar links suspeitos conferindo se o domínio do link bate com a lista oficial da empresa.
         </p>
         <p>
-          Verificar o endereço do site antes de clicar já reduz bastante o risco de cair em fraudes comuns na internet.
+          Verificar o link antes de clicar já reduz bastante o risco de cair em fraudes comuns na internet.
         </p>
         <p>
           Se você ainda estiver em dúvida, procure ajuda especializada ou fale com o suporte oficial da empresa antes de interagir com o site.

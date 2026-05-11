@@ -20,8 +20,8 @@ const visibleDomains = computed(() =>
 );
 const title = computed(() =>
   props.result.is_match
-    ? "Domínio oficial cadastrado encontrado."
-    : "Domínio diferente dos oficiais cadastrados.",
+    ? "Link compatível com a lista oficial."
+    : "Link diferente da lista oficial.",
 );
 </script>
 
@@ -34,7 +34,7 @@ const title = computed(() =>
       <small v-if="result.submitted_domain">Domínio comparado: {{ result.submitted_domain }}</small>
 
       <div v-if="!result.is_match && result.official_domains.length" class="result-card__domains">
-        <span>{{ result.official_domains.length === 1 ? "Endereço oficial cadastrado:" : "Endereços oficiais cadastrados:" }}</span>
+        <span>{{ result.official_domains.length === 1 ? "Domínio oficial cadastrado:" : "Domínios oficiais cadastrados:" }}</span>
         <div class="result-card__pills">
           <DomainPill v-for="domain in visibleDomains" :key="domain" :domain="domain" />
           <BaseButton
