@@ -4,6 +4,7 @@ import { onMounted, ref } from "vue";
 
 import { checkHealth, getCompanies, validateDomain } from "../../services/api";
 import type { Company, ValidationResult } from "../../types/api";
+import { SUBMITTED_LINK_MAX_LENGTH, submittedLinkSchema } from "../../utils/linkValidation";
 import BaseButton from "../atoms/BaseButton.vue";
 import BaseField from "../atoms/BaseField.vue";
 import StatusMessage from "../atoms/StatusMessage.vue";
@@ -12,7 +13,6 @@ import CompanyListModal from "./CompanyListModal.vue";
 import ValidationResultModal from "./ValidationResultModal.vue";
 
 const REQUEST_COMPANY_FORM_URL = "https://forms.gle/k7DeUUrqarm95VQX7";
-const DOMAIN_INPUT_MAX_LENGTH = 2048;
 
 const companies = ref<Company[]>([]);
 const companySearch = ref("");
@@ -76,9 +76,11 @@ async function submitValidation(): Promise<void> {
     return;
   }
 
-  if (!domainInput.value.trim()) {
+  const parsedDomainInput = submittedLinkSchema.safeParse(domainInput.value);
+
+  if (!parsedDomainInput.success) {
     statusTone.value = "error";
-    statusMessage.value = "Digite um link válido.";
+    statusMessage.value = parsedDomainInput.error.issues[0]?.message || "Digite um link válido.";
     return;
   }
 
@@ -88,7 +90,7 @@ async function submitValidation(): Promise<void> {
   try {
     result.value = await validateDomain({
       company_id: selectedCompanyId.value,
-      input: domainInput.value,
+      input: parsedDomainInput.data,
     });
     isResultModalOpen.value = true;
   } catch {
@@ -151,7 +153,7 @@ function openRequestCompanyForm(): void {
             label="Link recebido"
             placeholder="Ex.: https://exemplo.com.br/promocao"
             required
-            :maxlength="DOMAIN_INPUT_MAX_LENGTH"
+            :maxlength="SUBMITTED_LINK_MAX_LENGTH"
             :disabled="!isBackendReady"
           />
 

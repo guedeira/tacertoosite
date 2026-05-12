@@ -8,6 +8,7 @@ class ValidationResult:
     official_domains: list[str]
     submitted_domain: str
     message: str
+    status: str
 
     def to_dict(self) -> dict:
         return {

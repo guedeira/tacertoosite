@@ -7,9 +7,11 @@ const SCROLL_TOP_VISIBILITY_OFFSET = 520;
 const props = withDefaults(
   defineProps<{
     termsHref?: string;
+    privacyHref?: string;
   }>(),
   {
     termsHref: "./politicas/termos-de-uso.html",
+    privacyHref: "./politicas/politica-de-privacidade.html",
   },
 );
 
@@ -38,8 +40,11 @@ onBeforeUnmount(() => {
 
 <template>
   <footer class="site-footer">
-    <a :href="props.termsHref">Termos de uso</a>
-    <span class="site-footer__made-by">Feito com 🖤 pelo Guedeira</span>
+    <nav class="site-footer__links" aria-label="Políticas">
+      <a :href="props.termsHref">Termos de uso</a>
+      <a :href="props.privacyHref">Política de privacidade</a>
+    </nav>
+    <span class="site-footer__made-by">Feito com 🖤 para comunidade</span>
     <button
       class="back-to-top"
       :class="{ 'back-to-top--visible': showBackToTop }"
