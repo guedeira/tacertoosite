@@ -22,6 +22,11 @@ class FakeCompanyService:
                 name="Steam",
                 official_domains=["steampowered.com"],
             ),
+            "gov_br": Company(
+                id="gov_br",
+                name="gov.br",
+                official_domains=["gov.br"],
+            ),
         }
 
     def get_company(self, company_id: str) -> Company | None:
@@ -37,6 +42,7 @@ class DomainValidationServiceTest(unittest.TestCase):
 
         self.assertTrue(result.is_match)
         self.assertEqual(result.submitted_domain, "mercadolivre.com.br")
+        self.assertEqual(result.status, "match")
 
     def test_matches_official_domain_from_subdomain(self) -> None:
         result = self.service.validate("steam", "https://store.steampowered.com/app/730")
@@ -49,18 +55,28 @@ class DomainValidationServiceTest(unittest.TestCase):
 
         self.assertFalse(result.is_match)
         self.assertEqual(result.submitted_domain, "mercadoiivre.com.br")
+        self.assertEqual(result.status, "mismatch")
 
     def test_rejects_invalid_input(self) -> None:
         result = self.service.validate("nubank", "nubank")
 
         self.assertFalse(result.is_match)
         self.assertEqual(result.message, "Digite um link ou endereço válido.")
+        self.assertEqual(result.status, "invalid_domain")
 
     def test_rejects_unknown_company(self) -> None:
         result = self.service.validate("empresa_inexistente", "nubank.com.br")
 
         self.assertFalse(result.is_match)
         self.assertEqual(result.message, "Selecione uma empresa válida.")
+        self.assertEqual(result.status, "invalid_company")
+
+    def test_matches_allowed_public_suffix_subdomain(self) -> None:
+        result = self.service.validate("gov_br", "https://dad.dsadas.fsasads.gov.br/servicos")
+
+        self.assertTrue(result.is_match)
+        self.assertEqual(result.submitted_domain, "gov.br")
+        self.assertEqual(result.status, "match")
 
 
 if __name__ == "__main__":

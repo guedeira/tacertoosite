@@ -85,5 +85,5 @@ import SiteFooter from "../components/templates/SiteFooter.vue";
       </section>
     </article>
   </main>
-  <SiteFooter terms-href="./termos-de-uso.html" />
+  <SiteFooter terms-href="./termos-de-uso.html" privacy-href="./politica-de-privacidade.html" />
 </template>

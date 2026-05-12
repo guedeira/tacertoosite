@@ -25,6 +25,7 @@ class DomainValidationService:
                 official_domains=company.official_domains,
                 submitted_domain=submitted_domain,
                 message="Digite um link ou endereço válido.",
+                status="invalid_domain",
             )
 
         official_domains = [self.normalizer.normalize(domain) for domain in company.official_domains]
@@ -36,6 +37,7 @@ class DomainValidationService:
             official_domains=company.official_domains,
             submitted_domain=submitted_domain,
             message=self._build_message(is_match, company.name),
+            status="match" if is_match else "mismatch",
         )
 
     def _build_message(self, is_match: bool, company_name: str) -> str:
@@ -50,4 +52,5 @@ class DomainValidationService:
             official_domains=[],
             submitted_domain="",
             message="Selecione uma empresa válida.",
+            status="invalid_company",
         )
