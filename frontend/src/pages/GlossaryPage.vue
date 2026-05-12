@@ -36,5 +36,5 @@ import SiteFooter from "../components/templates/SiteFooter.vue";
       </div>
     </section>
   </main>
-  <SiteFooter terms-href="../politicas/termos-de-uso.html" />
+  <SiteFooter terms-href="../politicas/termos-de-uso.html" privacy-href="../politicas/politica-de-privacidade.html" />
 </template>

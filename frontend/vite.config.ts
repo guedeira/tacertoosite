@@ -15,6 +15,7 @@ export default defineConfig({
         scams: resolve(__dirname, "golpes/index.html"),
         glossary: resolve(__dirname, "glossario/index.html"),
         terms: resolve(__dirname, "politicas/termos-de-uso.html"),
+        privacy: resolve(__dirname, "politicas/politica-de-privacidade.html"),
       },
     },
   },

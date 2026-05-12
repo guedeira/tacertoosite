@@ -9,12 +9,12 @@ const props = withDefaults(
     checklistHref?: string;
     glossaryHref?: string;
     guideHref?: string;
-    activePage?: "home" | "checklist" | "glossary" | "guide" | "terms";
+    activePage?: "home" | "checklist" | "glossary" | "guide" | "terms" | "none";
   }>(),
   {
     homeHref: "./index.html",
     guideHref: "./golpes/",
-    activePage: "home",
+    activePage: "none",
   },
 );
 </script>

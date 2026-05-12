@@ -84,5 +84,5 @@ function getGroupId(category: string): string {
       </section>
     </section>
   </main>
-  <SiteFooter terms-href="../politicas/termos-de-uso.html" />
+  <SiteFooter terms-href="../politicas/termos-de-uso.html" privacy-href="../politicas/politica-de-privacidade.html" />
 </template>
