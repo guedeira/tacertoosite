@@ -44,7 +44,6 @@ onBeforeUnmount(() => {
       <a :href="props.termsHref">Termos de uso</a>
       <a :href="props.privacyHref">Política de privacidade</a>
     </nav>
-    <span class="site-footer__made-by">Feito com 🖤 para comunidade</span>
     <button
       class="back-to-top"
       :class="{ 'back-to-top--visible': showBackToTop }"

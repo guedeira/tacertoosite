@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowRight, Building2, SearchCheck } from "lucide-vue-next";
+import { ArrowRight } from "lucide-vue-next";
 import { onMounted, ref } from "vue";
 
 import { checkHealth, getCompanies, validateDomain } from "../../services/api";
@@ -35,21 +35,31 @@ async function initialize(): Promise<void> {
   statusMessage.value = "Conectando com o servidor. Isso pode levar alguns segundos na primeira visita.";
   statusTone.value = "info";
 
-  const backendReady = await waitForBackend();
+  if (await loadCompanies()) {
+    return;
+  }
 
+  const backendReady = await waitForBackend();
   if (!backendReady) {
     statusTone.value = "error";
     statusMessage.value = "Não conseguimos conectar agora. Aguarde um pouco e recarregue a página.";
     return;
   }
 
+  if (!(await loadCompanies())) {
+    statusTone.value = "error";
+    statusMessage.value = "Não conseguimos carregar a lista de empresas.";
+  }
+}
+
+async function loadCompanies(): Promise<boolean> {
   try {
     companies.value = await getCompanies();
     isBackendReady.value = true;
     statusMessage.value = "";
+    return true;
   } catch {
-    statusTone.value = "error";
-    statusMessage.value = "Não conseguimos carregar a lista de empresas.";
+    return false;
   }
 }
 
@@ -122,17 +132,44 @@ function openRequestCompanyForm(): void {
         Uma forma simples de identificar páginas falsas antes de informar dados, senhas ou realizar pagamentos.
         Evite golpes, fique tranquilo 😎
       </p>
-      <div class="hero__facts" aria-label="Resumo da ferramenta">
-        <span><Building2 aria-hidden="true" /> Empresas cadastradas</span>
-        <span><SearchCheck aria-hidden="true" /> Links conferidos</span>
-      </div>
+      <section class="hero-metrics" aria-labelledby="hero-metrics-title" aria-disabled="true">
+        <div class="hero-metrics__header">
+          <div>
+            <p>Resumo da semana</p>
+            <small>Atualizado diariamente</small>
+          </div>
+          <span>Em implementação</span>
+        </div>
+        <h2 id="hero-metrics-title">Visão geral das verificações realizadas</h2>
+        <p class="hero-metrics__copy">
+          Acompanhe o volume de verificações realizadas, correspondências com a lista oficial e empresas analisadas.
+        </p>
+        <dl class="hero-metrics__grid">
+          <div>
+            <dt>Verificações</dt>
+            <dd>--</dd>
+          </div>
+          <div>
+            <dt>Válidos</dt>
+            <dd>--</dd>
+          </div>
+          <div>
+            <dt>Inválidos</dt>
+            <dd>--</dd>
+          </div>
+          <div>
+            <dt>Checklists</dt>
+            <dd>--</dd>
+          </div>
+        </dl>
+      </section>
     </div>
 
     <div class="hero__tool">
       <div class="tool-card">
         <div class="tool-card__header">
           <h2>Conferir um link</h2>
-          <p>Cole o link completo, inclusive quando ele vier cheio de números, caminhos ou parâmetros.</p>
+          <p>Informe o endereço que você quer conferir, a comparação considera o domínio principal.</p>
         </div>
 
         <StatusMessage v-if="statusMessage" :tone="statusTone" :message="statusMessage" :busy="statusTone === 'info' && !isBackendReady" />

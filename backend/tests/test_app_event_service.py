@@ -22,7 +22,7 @@ class AppEventServiceTest(unittest.TestCase):
         service.log_event(
             event_name="domain_validation_submitted",
             event_category="domain_validation",
-            metadata={"submitted_domain_normalized": "nubank.com.br"},
+            metadata={"submitted_input": "nubank.com.br"},
             request_context={
                 "route": "/validate-domain",
                 "method": "POST",
@@ -40,7 +40,7 @@ class AppEventServiceTest(unittest.TestCase):
         self.assertEqual(repository.created_event["status_code"], 200)
         self.assertEqual(repository.created_event["duration_ms"], 8)
         self.assertEqual(repository.created_event["request_id"], "request-123")
-        self.assertEqual(repository.created_event["metadata"], {"submitted_domain_normalized": "nubank.com.br"})
+        self.assertEqual(repository.created_event["metadata"], {"submitted_input": "nubank.com.br"})
 
     def test_log_event_does_not_raise_when_repository_fails(self) -> None:
         service = AppEventService(repository=FakeRepository(should_fail=True))

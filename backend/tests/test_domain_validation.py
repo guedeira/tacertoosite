@@ -61,7 +61,22 @@ class DomainValidationServiceTest(unittest.TestCase):
         result = self.service.validate("nubank", "nubank")
 
         self.assertFalse(result.is_match)
+        self.assertEqual(result.submitted_domain, "")
         self.assertEqual(result.message, "Digite um link ou endereço válido.")
+        self.assertEqual(result.status, "invalid_domain")
+
+    def test_rejects_input_with_credentials(self) -> None:
+        result = self.service.validate("nubank", "https://user:pass@nubank.com.br")
+
+        self.assertFalse(result.is_match)
+        self.assertEqual(result.submitted_domain, "")
+        self.assertEqual(result.status, "invalid_domain")
+
+    def test_rejects_input_with_unsupported_scheme(self) -> None:
+        result = self.service.validate("nubank", "ftp://nubank.com.br")
+
+        self.assertFalse(result.is_match)
+        self.assertEqual(result.submitted_domain, "")
         self.assertEqual(result.status, "invalid_domain")
 
     def test_rejects_unknown_company(self) -> None:
@@ -71,7 +86,7 @@ class DomainValidationServiceTest(unittest.TestCase):
         self.assertEqual(result.message, "Selecione uma empresa válida.")
         self.assertEqual(result.status, "invalid_company")
 
-    def test_matches_allowed_public_suffix_subdomain(self) -> None:
+    def test_matches_trusted_aggregate_subdomain(self) -> None:
         result = self.service.validate("gov_br", "https://dad.dsadas.fsasads.gov.br/servicos")
 
         self.assertTrue(result.is_match)

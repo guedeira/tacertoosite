@@ -17,18 +17,22 @@ class DomainValidationService:
         if company is None:
             return self._invalid_company_result()
 
-        submitted_domain = self.normalizer.normalize(submitted_value)
-        if not self.normalizer.is_valid_domain(submitted_domain):
+        submitted_domain = self.normalizer.extract_submitted_domain(submitted_value)
+        if submitted_domain is None:
             return ValidationResult(
                 is_match=False,
                 company_name=company.name,
                 official_domains=company.official_domains,
-                submitted_domain=submitted_domain,
+                submitted_domain="",
                 message="Digite um link ou endereço válido.",
                 status="invalid_domain",
             )
 
-        official_domains = [self.normalizer.normalize(domain) for domain in company.official_domains]
+        official_domains = {
+            normalized_domain
+            for domain in company.official_domains
+            if (normalized_domain := self.normalizer.normalize(domain))
+        }
         is_match = submitted_domain in official_domains
 
         return ValidationResult(

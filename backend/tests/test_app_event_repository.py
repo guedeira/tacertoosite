@@ -37,8 +37,7 @@ class AppEventRepositoryTest(unittest.TestCase):
             ip_address="127.0.0.1",
             user_agent="test-agent",
             metadata={
-                "submitted_input_raw": "https://www.nubank.com.br",
-                "submitted_domain_normalized": "nubank.com.br",
+                "submitted_input": "nubank.com.br",
             },
         )
 
@@ -56,8 +55,7 @@ class AppEventRepositoryTest(unittest.TestCase):
         self.assertEqual(
             session.added_record.metadata_,
             {
-                "submitted_input_raw": "https://www.nubank.com.br",
-                "submitted_domain_normalized": "nubank.com.br",
+                "submitted_input": "nubank.com.br",
             },
         )
 
