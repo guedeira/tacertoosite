@@ -1,22 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-
-import AppModal from "../components/molecules/AppModal.vue";
 import ValidatorHero from "../components/organisms/ValidatorHero.vue";
 import AppNavbar from "../components/templates/AppNavbar.vue";
 import SiteFooter from "../components/templates/SiteFooter.vue";
-import { scamTypes } from "../data/scams";
-
-const selectedScamId = ref<string | null>(null);
-const selectedScam = computed(() => scamTypes.find((scamType) => scamType.id === selectedScamId.value) || null);
-
-function openScamModal(scamId: string): void {
-  selectedScamId.value = scamId;
-}
-
-function closeScamModal(): void {
-  selectedScamId.value = null;
-}
 </script>
 
 <template>
@@ -63,49 +48,9 @@ function closeScamModal(): void {
             </ul>
           </article>
 
-          <article class="insight insight--wide scam-types" aria-labelledby="scam-types-title">
-            <h2 id="scam-types-title">Golpes comuns utilizando links falsos ou comprometidos</h2>
-            <p>
-              Muitos golpes usam o nome de uma empresa real, mas mandam você para um link falso. Conheça alguns casos em que conferir o link ajuda a evitar cilada.
-            </p>
-            <div class="scam-types__list">
-              <button
-                v-for="scamType in scamTypes.slice(0, 4)"
-                :key="scamType.id"
-                class="scam-type-button"
-                type="button"
-                @click="openScamModal(scamType.id)"
-              >
-                <strong>{{ scamType.name }}</strong>
-                <span>{{ scamType.shortDescription }}</span>
-              </button>
-            </div>
-            <a class="scam-types__more" href="./golpes/">Saiba mais sobre golpes comuns</a>
-          </article>
         </div>
       </div>
     </section>
   </main>
   <SiteFooter />
-
-  <AppModal
-    v-if="selectedScam"
-    :open="Boolean(selectedScam)"
-    :title="selectedScam.name"
-    :description="selectedScam.modalDescription"
-    @close="closeScamModal"
-  >
-    <div class="scam-modal">
-      <section>
-        <h3>Sinais comuns</h3>
-        <ul>
-          <li v-for="sign in selectedScam.signs" :key="sign">{{ sign }}</li>
-        </ul>
-      </section>
-      <section>
-        <h3>O que fazer</h3>
-        <p>{{ selectedScam.action }}</p>
-      </section>
-    </div>
-  </AppModal>
 </template>

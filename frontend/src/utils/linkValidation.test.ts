@@ -15,8 +15,8 @@ describe("link validation utilities", () => {
     expect(isValidSubmittedLink("nubank")).toBe(false);
   });
 
-  it("rejects domains with unknown public suffixes", () => {
-    expect(isValidSubmittedLink("sdfsd.fdsfds.fdsfdsf.sfsdfdsf.dsfds")).toBe(false);
+  it("leaves public suffix checks to the backend", () => {
+    expect(isValidSubmittedLink("sdfsd.fdsfds.fdsfdsf.sfsdfdsf.dsfds")).toBe(true);
   });
 
   it("rejects links with raw spaces", () => {

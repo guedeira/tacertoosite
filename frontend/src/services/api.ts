@@ -4,6 +4,13 @@ const PRODUCTION_API_BASE_URL = "https://api-tacertoosite.guedeira.dev";
 const API_BASE_URL = import.meta.env.DEV
   ? "/api"
   : import.meta.env.VITE_API_BASE_URL || PRODUCTION_API_BASE_URL;
+const COMPANIES_CACHE_DURATION_IN_MS = 5 * 60 * 1000;
+
+let companiesCache: { expiresAt: number; companies: Company[] } | null = null;
+
+export function clearCompaniesCache(): void {
+  companiesCache = null;
+}
 
 async function fetchWithTimeout(path: string, options: RequestInit = {}, timeoutInMs = 8000): Promise<Response> {
   const controller = new AbortController();
@@ -29,13 +36,23 @@ export async function checkHealth(): Promise<boolean> {
 }
 
 export async function getCompanies(): Promise<Company[]> {
+  if (companiesCache && companiesCache.expiresAt > Date.now()) {
+    return companiesCache.companies;
+  }
+
   const response = await fetchWithTimeout("/companies");
 
   if (!response.ok) {
     throw new Error("Não foi possível carregar as empresas.");
   }
 
-  return response.json() as Promise<Company[]>;
+  const companies = await response.json() as Company[];
+  companiesCache = {
+    companies,
+    expiresAt: Date.now() + COMPANIES_CACHE_DURATION_IN_MS,
+  };
+
+  return companies;
 }
 
 export async function validateDomain(payload: DomainValidationPayload): Promise<ValidationResult> {

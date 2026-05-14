@@ -29,8 +29,8 @@ import SiteFooter from "../components/templates/SiteFooter.vue";
         <p>Quando uma pessoa usa a ferramenta para conferir um link, podemos registrar informações técnicas sobre essa consulta:</p>
         <ul>
           <li>empresa selecionada;</li>
-          <li>link completo informado no campo de consulta;</li>
-          <li>domínio normalizado usado para comparação;</li>
+          <li>domínio extraído do link informado no campo de consulta;</li>
+          <li>endereço informado quando não for possível extrair um domínio válido;</li>
           <li>resultado da comparação, como correspondência, divergência ou link inválido;</li>
           <li>data e horário da consulta;</li>
           <li>rota acessada, método da requisição, código de resposta e tempo de resposta;</li>
@@ -65,10 +65,10 @@ import SiteFooter from "../components/templates/SiteFooter.vue";
       <section>
         <h2>5. Atenção ao link informado</h2>
         <p>
-          O link colado na ferramenta é registrado para permitir análise de campanhas e padrões de fraude. Evite colar links que contenham dados pessoais, tokens, códigos de acesso, senhas ou informações sensíveis.
+          O domínio extraído do link colado na ferramenta é registrado para permitir análise de campanhas e padrões de fraude. Quando não for possível extrair um domínio válido, o endereço informado também pode ser registrado para entendermos o erro ou padrão suspeito.
         </p>
         <p>
-          Caso receba um link com informações privadas, prefira remover esses trechos antes de consultar, quando isso não prejudicar a análise do domínio.
+          Evite colar links que contenham dados pessoais, tokens, códigos de acesso, senhas ou informações sensíveis.
         </p>
       </section>
 

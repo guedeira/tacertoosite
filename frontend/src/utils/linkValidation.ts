@@ -1,8 +1,6 @@
 import { z } from "zod";
-import { parse } from "tldts";
 
 export const SUBMITTED_LINK_MAX_LENGTH = 2048;
-const ALLOWED_PUBLIC_SUFFIX_DOMAINS = new Set(["gov.br"]);
 
 export const submittedLinkSchema = z
   .string()
@@ -37,7 +35,7 @@ export function isValidSubmittedLink(value: string): boolean {
 
   const hostname = url.hostname.toLowerCase().replace(/\.$/, "");
 
-  return isValidDomain(hostname) && hasKnownPublicSuffix(hostname);
+  return isValidDomain(hostname);
 }
 
 function isValidDomain(domain: string): boolean {
@@ -52,14 +50,4 @@ function isValidDomain(domain: string): boolean {
   }
 
   return labels.every((label) => /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/.test(label));
-}
-
-function hasKnownPublicSuffix(hostname: string): boolean {
-  const parsed = parse(hostname);
-
-  if (parsed.isIcann && parsed.domain) {
-    return true;
-  }
-
-  return Boolean(parsed.isIcann && parsed.publicSuffix && ALLOWED_PUBLIC_SUFFIX_DOMAINS.has(hostname.replace(/^www\./, "")));
 }
